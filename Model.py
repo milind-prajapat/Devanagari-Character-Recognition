@@ -1,4 +1,4 @@
-from keras.optimizers import Adam, SGD
+from keras.optimizers import Adam
 from tensorflow.keras.models import Sequential
 from keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization
