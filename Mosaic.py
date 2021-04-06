@@ -11,7 +11,8 @@ Labels = ["ka", "kha", "ga", "gha", "kna",
           "pa", "pha", "ba", "bha", "ma",
           "yaw", "ra", "la", "waw", "motosaw",
           "petchiryakha", "patalosaw", "ha", "chhya", "tra", "gya",
-          "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+          "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+          "a", "aa", "e", "ee", "u", "uu", "ru", "ye", "i", "o", "au", "am", "aha"]
 
 x_test = []
 y_test = []
@@ -44,13 +45,13 @@ for i in df.index:
     y_test.append(df.iloc[i,1])
 
 x_test = np.array(x_test).reshape(-1, 32, 32, 1) / 255.0
-y_test = to_categorical(y_test, 46)
+y_test = to_categorical(y_test, 59)
 
 model = load_model("best_val_loss.hdf5")
-#loss, acc = model.evaluate(x_test, y_test)
+
+loss, acc = model.evaluate(x_test, y_test)
+print("Loss:", loss)
+print("Accuracy:", acc)
 
 print(df.iloc[:,1].values)
 print([np.argmax(x) for x in model.predict(x_test)])
-
-#print("Loss:", loss)
-#print("Accuracy:", acc)
