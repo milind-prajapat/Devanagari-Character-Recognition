@@ -1,10 +1,8 @@
-import os
 import cv2
 import numpy as np
+import pandas as pd
 from keras.models import load_model
-import matplotlib.pyplot as plt
-
-model = load_model("best_val_loss.hdf5")
+from keras.utils import to_categorical
 
 Labels = ["ka", "kha", "ga", "gha", "kna",
           "cha", "chha", "ja", "jha", "yna",
@@ -15,8 +13,13 @@ Labels = ["ka", "kha", "ga", "gha", "kna",
           "petchiryakha", "patalosaw", "ha", "chhya", "tra", "gya",
           "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-for file in os.listdir("Test"):
-    img = cv2.imread(f"Test/{file}")
+x_test = []
+y_test = []
+
+df = pd.read_csv(r"Test/Reference.csv")
+
+for i in df.index:
+    img = cv2.imread(df.iloc[i,0])
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -37,6 +40,17 @@ for file in os.listdir("Test"):
 
     thresh = cv2.resize(thresh, (32,32), interpolation = cv2.INTER_AREA)
 
-    x = thresh.reshape(-1, 32, 32, 1) / 255.0
+    x_test.append(thresh.copy())
+    y_test.append(df.iloc[i,1])
 
-    print(Labels[np.argmax(model.predict([x]))])
+x_test = np.array(x_test).reshape(-1, 32, 32, 1) / 255.0
+y_test = to_categorical(y_test, 46)
+
+model = load_model("best_val_loss.hdf5")
+#loss, acc = model.evaluate(x_test, y_test)
+
+print(df.iloc[:,1].values)
+print([np.argmax(x) for x in model.predict(x_test)])
+
+#print("Loss:", loss)
+#print("Accuracy:", acc)
