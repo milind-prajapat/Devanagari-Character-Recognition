@@ -9,8 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.rar
-*.zip
+*Dataset
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
