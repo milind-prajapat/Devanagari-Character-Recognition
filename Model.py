@@ -53,7 +53,7 @@ model.add(BatchNormalization())
 model.add(Dense(64, activation = "relu", kernel_initializer = "uniform"))
 model.add(BatchNormalization())
 
-model.add(Dense(46, activation = "softmax", kernel_initializer = "uniform"))
+model.add(Dense(59, activation = "softmax", kernel_initializer = "uniform"))
 
 model.compile(optimizer = Adam(lr = 0.001, decay = 1e-5), loss = "categorical_crossentropy", metrics = ['accuracy'])
 
