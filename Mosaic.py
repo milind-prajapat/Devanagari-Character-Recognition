@@ -4,6 +4,7 @@ import pandas as pd
 from keras.models import load_model
 from keras.utils import to_categorical
 
+<<<<<<< HEAD
 Label_dict={
 1:"क", 2:"ख", 3:"ग", 4:"घ", 5:"ङ",
 6:"च", 7:"छ", 8:"ज", 9:"झ", 10:"ञ",
@@ -14,6 +15,17 @@ Label_dict={
 32:"स", 33:"ह",34:"क्ष", 35:"त्र", 36:"ज्ञ", 37:"०", 38: "१", 39: "२", 40:"३", 41:"४", 42:"५", 43:"६", 44:"७", 45:"८", 46:"९"
 47:"अ", 48:"आ", 49:"इ", 50:"ई", 51:"उ", 52:"ऊ", 53:"ऋ", 54:"ए", 55:"ऐ", 56:"ओ", 57:"औ",
 58:"अं" , 59:"अ:"}
+=======
+Labels = ["ka", "kha", "ga", "gha", "kna",
+          "cha", "chha", "ja", "jha", "yna",
+          "taamatar", "thaa", "daa", "dhaa", "adna",
+          "tabala", "tha", "da", "dha", "na",
+          "pa", "pha", "ba", "bha", "ma",
+          "yaw", "ra", "la", "waw", "motosaw",
+          "petchiryakha", "patalosaw", "ha", "chhya", "tra", "gya",
+          "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+          "a", "aa", "e", "ee", "u", "uu", "ru", "ye", "i", "o", "au", "am", "aha"]
+>>>>>>> 1cc1fd5510ad9f1b073b985ebf887e57c3c4a49e
 
 x_test = []
 y_test = []
@@ -46,13 +58,19 @@ for i in df.index:
     y_test.append(df.iloc[i,1])
 
 x_test = np.array(x_test).reshape(-1, 32, 32, 1) / 255.0
-y_test = to_categorical(y_test, 46)
+y_test = to_categorical(y_test, 59)
 
 model = load_model("best_val_loss.hdf5")
-#loss, acc = model.evaluate(x_test, y_test)
+
+loss, acc = model.evaluate(x_test, y_test)
+print("Loss:", loss)
+print("Accuracy:", acc)
 
 print(df.iloc[:,1].values)
 print([np.argmax(x) for x in model.predict(x_test)])
+<<<<<<< HEAD
 
 #print("Loss:", loss)
 #print("Accuracy:", acc)
+=======
+>>>>>>> 1cc1fd5510ad9f1b073b985ebf887e57c3c4a49e
