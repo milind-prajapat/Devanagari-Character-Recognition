@@ -11,7 +11,6 @@
 *.sln.docstates
 *.zip
 *.pdf
-*Test
 *Additional Datasets
 *DevanagariHandwrittenCharacterDataset
 
