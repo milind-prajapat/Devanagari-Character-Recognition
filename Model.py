@@ -2,7 +2,7 @@ from keras.optimizers import Adam
 from tensorflow.keras.models import Sequential
 from keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, BatchNormalization
-from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping, CSVLogger
 
 trainDataGen = ImageDataGenerator(rotation_range = 5,
                                   width_shift_range = 0.1,
@@ -15,13 +15,13 @@ trainDataGen = ImageDataGenerator(rotation_range = 5,
 
 testDataGen = ImageDataGenerator(rescale = 1.0/255)
 
-trainGenerator = trainDataGen.flow_from_directory("DevanagariHandwrittenCharacterDataset/Train",
+trainGenerator = trainDataGen.flow_from_directory("Dataset/Train",
                                                   target_size = (32,32),
                                                   batch_size = 32,
                                                   color_mode = "grayscale",
                                                   class_mode = "categorical")
 
-validationGenerator = testDataGen.flow_from_directory("DevanagariHandwrittenCharacterDataset/Test",
+validationGenerator = testDataGen.flow_from_directory("Dataset/Test",
                                                         target_size = (32,32),
                                                         batch_size = 32,
                                                         color_mode = "grayscale",
@@ -61,8 +61,9 @@ callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
                               patience = 7, min_lr = 0.001 / 100),
              EarlyStopping(patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
                           min_delta = 0.00001),
+             CSVLogger("training.log", append = True),
              ModelCheckpoint('backup_last_model.hdf5'),
              ModelCheckpoint('best_val_acc.hdf5', monitor = 'val_accuracy', mode = 'max', save_best_only = True),
              ModelCheckpoint('best_val_loss.hdf5', monitor = 'val_loss', mode = 'min', save_best_only = True)]
 
-model.fit(trainGenerator, epochs = 40, validation_data = validationGenerator, callbacks = callbacks)
+model.fit(trainGenerator, epochs = 50, validation_data = validationGenerator, callbacks = callbacks)
