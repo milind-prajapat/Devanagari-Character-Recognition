@@ -48,17 +48,17 @@ for i in df.index:
 x_test = np.array(x_test).reshape(-1, 32, 32, 1) / 255.0
 y_test = to_categorical(y_test, 59)
 
-model = load_model("best_val_loss.hdf5")
-loss, acc = model.evaluate(x_test, y_test)
-
-print("Best Loss Model:")
-print("Loss on Test Data :", loss)
-print("Accuracy on Test Data :", "{:.4%}".format(acc))
-
 model = load_model("best_val_acc.hdf5")
 loss, acc = model.evaluate(x_test, y_test)
 
 print("Best Accuracy Model:")
+print("Loss on Test Data :", loss)
+print("Accuracy on Test Data :", "{:.4%}".format(acc))
+
+model = load_model("best_val_loss.hdf5")
+loss, acc = model.evaluate(x_test, y_test)
+
+print("Best Loss Model:")
 print("Loss on Test Data :", loss)
 print("Accuracy on Test Data :", "{:.4%}".format(acc))
 
