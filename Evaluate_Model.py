@@ -1,11 +1,26 @@
 import os
 import cv2
+import numpy as np
 import pandas as pd
 from keras.models import load_model
 from keras.utils import to_categorical
 
+model = load_model("best_val_loss.hdf5")
+
+os.system("cls")
+
 x_test = []
 y_test = []
+
+Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
+              5: 'च', 6: 'छ', 7: 'ज', 8: 'झ', 9: 'ञ',
+              10: 'ट', 11: 'ठ', 12: 'ड', 13: 'ढ', 14: 'ण',
+              15: 'त', 16: 'थ', 17: 'द', 18: 'ध', 19: 'न',
+              20: 'प', 21: 'फ', 22: 'ब', 23: 'भ', 24: 'म',
+              25: 'य', 26: 'र', 27: 'ल', 28: 'व', 29: 'श',
+              30: 'ष', 31: 'स', 32: 'ह', 33: 'क्ष', 34: 'त्र', 35: 'ज्ञ',
+              36: '०', 37: '१', 38: '२', 39: '३', 40: '४', 41: '५', 42: '६', 43: '७', 44: '८', 45: '९',
+              46: 'अ', 47: 'आ', 48: 'इ', 49: 'ई', 50: 'उ', 51: 'ऊ', 52: 'ऋ', 53: 'ए', 54: 'ऐ', 55: 'ओ', 56: 'औ', 57: 'अं', 58: 'अ:'}
 
 df = pd.read_csv(os.path.join("Test", "Reference.csv"))
 
@@ -37,17 +52,8 @@ for i in df.index:
 x_test = np.array(x_test).reshape(-1, 32, 32, 1) / 255.0
 y_test = to_categorical(y_test, 59)
 
-model = load_model("best_val_acc.hdf5")
 loss, acc = model.evaluate(x_test, y_test)
 
-print("Best Accuracy Model:")
-print("Loss on Test Data :", loss)
-print("Accuracy on Test Data :", "{:.4%}".format(acc))
-
-model = load_model("best_val_loss.hdf5")
-loss, acc = model.evaluate(x_test, y_test)
-
-print("Best Loss Model:")
 print("Loss on Test Data :", loss)
 print("Accuracy on Test Data :", "{:.4%}".format(acc))
 
