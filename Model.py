@@ -85,5 +85,3 @@ loss, acc = model.evaluate(x_test, y_test)
 print("Best Accuracy Model:")
 print('Loss on Validation Data : ', loss)
 print('Accuracy on Validation Data :', '{:.4%}'.format(acc))
-
-input("Training Done!")

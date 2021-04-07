@@ -67,5 +67,3 @@ y_test = [Label_Dict[class_id] for class_id in np.argmax(y_test, axis = 1)]
 
 Results = pd.DataFrame(list(zip(df.iloc[:, 0], y_test, y_pred)), columns = ["File_Name", "Actual", "Prediction"])
 Results.to_csv(os.path.join("Test", "Final_Results.csv"), index = False)
-
-input("Done!")
