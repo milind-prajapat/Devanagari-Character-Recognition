@@ -70,7 +70,7 @@ callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
              ModelCheckpoint('best_val_acc.hdf5', monitor = 'val_accuracy', mode = 'max', save_best_only = True),
              ModelCheckpoint('best_val_loss.hdf5', monitor = 'val_loss', mode = 'min', save_best_only = True)]
 
-model.fit(trainGenerator, epochs = 50, validation_data = validationGenerator, callbacks = callbacks, use_multiprocessing = True)
+model.fit(trainGenerator, epochs = 50, validation_data = validationGenerator, callbacks = callbacks)
 
 model = load_model('best_val_loss.hdf5')
 loss, acc = model.evaluate(x_test, y_test)
