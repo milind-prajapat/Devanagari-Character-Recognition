@@ -20,5 +20,9 @@ Path = os.path.join("Split Words", "1.png")
 Characters = Split_Word.Split(cv2.imread(Path))
 Predictions = Predict_Characters.Predict(Characters)
 
+Word = ""
+
 for class_id in Predictions:
-    print(Label_Dict[class_id], end = "")
+    Word += Label_Dict[class_id]
+
+print(Word)
