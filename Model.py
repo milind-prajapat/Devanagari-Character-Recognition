@@ -17,16 +17,18 @@ trainDataGen = ImageDataGenerator(rotation_range = 5,
 
 testDataGen = ImageDataGenerator(rescale = 1.0/255)
 
-trainGenerator = trainDataGen.flow_from_directory(os.path.join("Dataset", "Train"),
+trainGenerator = trainDataGen.flow_from_directory(os.path.join("Splitted_Dataset", "Train"),
                                                   target_size = (32,32),
                                                   batch_size = 32,
                                                   color_mode = "grayscale",
+                                                  classes = [str(class_id) for class_id in range(59)],
                                                   class_mode = "categorical")
 
-validationGenerator = testDataGen.flow_from_directory(os.path.join("Dataset", "Validation"),
+validationGenerator = testDataGen.flow_from_directory(os.path.join("Splitted_Dataset", "Validation"),
                                                       target_size = (32,32),
                                                       batch_size = 32,
                                                       color_mode = "grayscale",
+                                                      classes = [str(class_id) for class_id in range(59)],
                                                       class_mode = "categorical")
 
 model = Sequential()

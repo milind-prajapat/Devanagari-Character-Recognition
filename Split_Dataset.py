@@ -31,3 +31,5 @@ for Class in tqdm(df.iloc[:,0]):
       shutil.copy(os.path.join("Dataset", str(Class), File), os.path.join("Splitted_Dataset", "Validation", str(Class), File))
     for File in Files[125:]:
       shutil.copy(os.path.join("Dataset", str(Class), File), os.path.join("Splitted_Dataset", "Train", str(Class), File))
+
+shutil.copy(os.path.join("Dataset", "Reference.csv"), os.path.join("Splitted_Dataset", "Reference.csv"))
