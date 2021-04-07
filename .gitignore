@@ -10,9 +10,8 @@
 *.userosscache
 *.sln.docstates
 *.zip
-*.pdf
-*All Datasets
 *Dataset
+*Splitted_Dataset
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

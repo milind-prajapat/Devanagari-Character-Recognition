@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>4081a806-9686-489c-aa48-5845e97dbfe9</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Mosaic.py</StartupFile>
+    <StartupFile>Predict.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,7 +22,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Model.py" />
-    <Compile Include="Mosaic.py" />
+    <Compile Include="Evaluate_Model.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Solution.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Split_Dataset.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Predict.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
