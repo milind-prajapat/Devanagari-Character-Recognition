@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 import pandas as pd
@@ -17,7 +18,7 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
 x_test = []
 y_test = []
 
-df = pd.read_csv(r"Test/Reference.csv")
+df = pd.read_csv(os.path.join("Test", "Reference.csv"))
 
 for i in df.index:
     img = cv2.imread(df.iloc[i,0])
@@ -48,10 +49,23 @@ x_test = np.array(x_test).reshape(-1, 32, 32, 1) / 255.0
 y_test = to_categorical(y_test, 59)
 
 model = load_model("best_val_loss.hdf5")
-
 loss, acc = model.evaluate(x_test, y_test)
-print("Loss:", loss)
-print("Accuracy:", acc)
 
-print(df.iloc[:,1].values)
-print([np.argmax(x) for x in model.predict(x_test)])
+print("Best Loss Model:")
+print("Loss on Test Data :", loss)
+print("Accuracy on Test Data :", "{:.4%}".format(acc))
+
+model = load_model("best_val_acc.hdf5")
+loss, acc = model.evaluate(x_test, y_test)
+
+print("Best Accuracy Model:")
+print("Loss on Test Data :", loss)
+print("Accuracy on Test Data :", "{:.4%}".format(acc))
+
+y_pred = [Label_Dict[class_id] for class_id in np.argmax(model.predict(x_test), axis = 1)]
+y_test = [Label_Dict[class_id] for class_id in np.argmax(y_test, axis = 1)]
+
+Results = pd.DataFrame(list(zip(df.iloc[:, 0], y_test, y_pred)), columns = ["File_Name", "Actual", "Prediction"])
+Results.to_csv(os.path.join("Test", "Final_Results.csv"), index = False)
+
+input("Done!")
