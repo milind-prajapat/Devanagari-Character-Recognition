@@ -10,9 +10,7 @@ model = load_model("best_val_loss.hdf5")
 def Predict(Characters):
     Predictions = []
 
-    for img in Characters:
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
+    for gray in Characters:
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
         morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
     
@@ -30,7 +28,7 @@ def Predict(Characters):
 
         thresh = cv2.resize(thresh, (32,32), interpolation = cv2.INTER_AREA)
 
-        thresh.reshape(32, 32, 1) / 255.0
-        Predictions.append(np.argmax(model.predict([thresh])))
+        x = np.array([thresh]).reshape(-1, 32, 32, 1) / 255.0
+        Predictions.append(np.argmax(model.predict(x)))
 
     return Predictions
