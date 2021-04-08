@@ -14,9 +14,6 @@ def Predict(Word_Characters):
     for Characters in Word_Characters:
         Prediction = []
         for img in Characters:
-            cv2.imshow('frame', img)
-            cv2.waitKey(0)
-
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
             kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
