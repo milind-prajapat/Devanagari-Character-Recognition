@@ -28,4 +28,4 @@ for Image_Name in os.listdir(Path):
         for class_id in Prediction:
             Word += Label_Dict[class_id]
         print(Word, end = " ")
-    print("\n")
+    print("")

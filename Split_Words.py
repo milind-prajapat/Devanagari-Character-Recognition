@@ -13,7 +13,7 @@ def Sorting_Key(contour):
             return cx + ((i + 1) * Size)
 
 def Split(img):
-    global Lines, Length
+    global Lines, Length, Size
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -34,10 +34,11 @@ def Split(img):
     upper = None
     lower = None
     Lines = []
-    for i in h_proj:
-        if i != 0 and upper == None:
+    for i in range(h_proj.shape[0]):
+        proj = h_proj[i]
+        if proj != 0 and upper == None:
             upper = i
-        elif i == 0 and upper != None and lower == None:
+        elif proj == 0 and upper != None and lower == None:
             lower = i
             Lines.append([upper, lower])
             upper = None
