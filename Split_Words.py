@@ -27,7 +27,7 @@ def Split(img):
     _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 2)
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 3)
 
     h_proj = np.sum(thresh, axis = 1)
 
@@ -53,18 +53,25 @@ def Split(img):
     Words = []
 
     for contour in contours:
-        rect = cv2.minAreaRect(contour)
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
+        if cv2.contourArea(contour) > 400.0:
+            rect = cv2.minAreaRect(contour)
+            Box = cv2.boxPoints(rect)
+            Box = np.int0(Box)
 
-        shape = (box[1][0] - box[0][0], box[3][1] - box[0][1])
+            index = np.argmin(np.sum(Box, axis = 1))
 
-        src = np.float32(box)
-        dst = np.array([[0, 0], [shape[0], 0], [shape[0], shape[1]], [0, shape[1]]], np.float32)
+            box = []
+            box.extend(Box[index:])
+            box.extend(Box[0:index])
+           
+            shape = (box[1][0] - box[0][0], box[3][1] - box[0][1])
 
-        M = cv2.getPerspectiveTransform(src, dst)
-        warp = cv2.bitwise_not(cv2.warpPerspective(cv2.bitwise_not(img), M, shape))
+            src = np.float32(box)
+            dst = np.array([[0, 0], [shape[0], 0], [shape[0], shape[1]], [0, shape[1]]], np.float32)
 
-        Words.append(warp.copy())
+            M = cv2.getPerspectiveTransform(src, dst)
+            warp = cv2.bitwise_not(cv2.warpPerspective(cv2.bitwise_not(img), M, shape))
+
+            Words.append(warp.copy())
 
     return Words

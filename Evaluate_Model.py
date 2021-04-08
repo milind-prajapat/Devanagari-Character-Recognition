@@ -1,12 +1,11 @@
 import os
 import cv2
-import numpy as np
+import Split_Words
 import pandas as pd
+import Split_Characters
 import Predict_Characters
-from keras.models import load_model
-from sklearn.metrics import accuracy_score
 
-model = load_model("best_val_loss.hdf5")
+from sklearn.metrics import accuracy_score
 
 os.system("cls")
 
@@ -22,16 +21,29 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
 
 df = pd.read_csv(os.path.join("Test", "Reference.csv"))
 
-Characters = [cv2.imread(img) for img in df.iloc[:,0]]
-y_pred = Predict_Characters.Predict(Characters)
+for Image_Path in df.iloc[:,0]:
+    Words = Split_Words.Split(cv2.imread(Image_Path))
+    Word_Characters = Split_Characters.Split(Words)
+    Predictions = Predict_Characters.Predict(Word_Characters)
 
-y_true = df.iloc[:, 1].values.to_list()
+    for Prediction in Predictions:
+        Word = ""
+        for class_id in Prediction:
+            Word += Label_Dict[class_id]
+        print(Word, end = " ")
+    print("")
 
-acc = accuracy_score(y_true, y_pred)
-print("Accuracy on Test Data :", "{:.4%}".format(acc))
-
-y_pred = [Label_Dict[class_id] for class_id in np.argmax(y_pred, axis = 1)]
-y_true = [Label_Dict[class_id] for class_id in np.argmax(y_true, axis = 1)]
-
-Results = pd.DataFrame(list(zip(df.iloc[:, 0], y_true, y_pred)), columns = ["File_Name", "Actual", "Prediction"])
-Results.to_csv(os.path.join("Test", "Final_Results.csv"), index = False)
+##Characters = [cv2.imread(img) for img in df.iloc[:,0]]
+##y_pred = Predict_Characters.Predict(Characters)
+##
+##y_true = df.iloc[:, 1].values.to_list()
+##
+##acc = accuracy_score(y_true, y_pred)
+##print("Accuracy on Test Data :", "{:.4%}".format(acc))
+##
+##y_pred = [Label_Dict[class_id] for class_id in np.argmax(y_pred, axis = 1)]
+##y_true = [Label_Dict[class_id] for class_id in np.argmax(y_true, axis = 1)]
+##
+##Results = pd.DataFrame(list(zip(df.iloc[:, 0], y_true, y_pred)), columns = ["File_Name", "Actual", "Prediction"])
+##Results.to_csv(os.path.join("Test", "Final_Results.csv"), index = False)
+##
