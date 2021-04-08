@@ -37,7 +37,7 @@ def Split(img):
     for i in h_proj:
         if i != 0 and upper == None:
             upper = i
-        elif i != 0 and upper != None and lower == None:
+        elif i == 0 and upper != None and lower == None:
             lower = i
             Lines.append([upper, lower])
             upper = None
