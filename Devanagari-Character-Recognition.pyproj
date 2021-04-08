@@ -26,10 +26,13 @@
     <Compile Include="Evaluate_Model.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Split_Characters.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Solution.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Split_Word.py">
+    <Compile Include="Split_Words.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Split_Dataset.py">
