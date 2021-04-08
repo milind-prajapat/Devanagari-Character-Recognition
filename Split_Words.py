@@ -62,7 +62,7 @@ def Split(img):
         dst = np.array([[0, 0], [shape[0], 0], [shape[0], shape[1]], [0, shape[1]]], np.float32)
 
         M = cv2.getPerspectiveTransform(src, dst)
-        warp = cv2.warpPerspective(img, M, shape)
+        warp = cv2.bitwise_not(cv2.warpPerspective(cv2.bitwise_not(img), M, shape))
 
         Words.append(warp.copy())
 

@@ -9,6 +9,11 @@ def Sorting_Key(contour):
 
     return cx
 
+def Sorting_Key_Line(contour):
+    _, _, w, h = cv2.boundingRect(contour)
+    
+    return w / h
+
 def Split(Words):
     Word_Characters = []
     for Word in Words:
@@ -30,15 +35,14 @@ def Split(Words):
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        contours.sort(key = Sorting_Key_Line, reverse = True)
 
-        thickness = None
-        for contour in contours:
-            _, _, w, h = cv2.boundingRect(contour)
-            if w / h > 5:
-                thickness = h
-                cv2.drawContours(thresh, [contour], 0, 255, -1)
-            else:
-                cv2.drawContours(thresh, [contour], 0, 0, -1)
+        _, _, w, h = cv2.boundingRect(contours[0])
+        thickness = h
+        cv2.drawContours(thresh, [contours[0]], 0, 255, -1)
+
+        for contour in contours[1:]:
+            cv2.drawContours(thresh, [contour], 0, 0, -1)
 
         thresh = cv2.bitwise_not(thresh)
         gray = cv2.bitwise_not(gray)
@@ -76,10 +80,10 @@ def Split(Words):
                 w = bounding_rects[index][2]
                 h = bounding_rects[index][3]
 
-                x = max(0, x - 3) 
-                y = max(0, y - thickness)
-                h = min(Word.shape[0], h + thickness + 3)
+                x = max(0, x - 3)
+                y = max(0, y - 3 - thickness)
                 w = min(Word.shape[1], w + 6)
+                h = min(Word.shape[0], h + 6 + thickness)
 
                 Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
                 Character.fill(255)
@@ -99,6 +103,7 @@ def Split(Words):
                 bounding_rects[index] = (x, y, w, h)
                 del bounding_rects[index + 1]
                 index -= 1
+                Length -= 1
             index += 1
 
         x = bounding_rects[-1][0]
@@ -106,10 +111,10 @@ def Split(Words):
         w = bounding_rects[-1][2]
         h = bounding_rects[-1][3]
 
-        x = max(0, x - 3) 
-        y = max(0, y - thickness)
-        h = min(Word.shape[0], h + thickness + 3)
+        x = max(0, x - 3)
+        y = max(0, y - 3 - thickness)
         w = min(Word.shape[1], w + 6)
+        h = min(Word.shape[0], h + 6 + thickness)
 
         Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
         Character.fill(255)
