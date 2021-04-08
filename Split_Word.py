@@ -53,6 +53,6 @@ def Split(img):
             w += 10
             h += 20
 
-            Characters.append(gray[y:y+h, x:x+h].copy())
+            Characters.append(img[y:y+h, x:x+h].copy())
 
     return Characters

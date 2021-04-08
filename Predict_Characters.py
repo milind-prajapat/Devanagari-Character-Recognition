@@ -10,7 +10,9 @@ model = load_model("best_val_loss.hdf5")
 def Predict(Characters):
     Predictions = []
 
-    for gray in Characters:
+    for img in Characters:
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
         morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
     
@@ -23,8 +25,12 @@ def Predict(Characters):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 2)
 
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations = 2)
+
+        cv2.imshow('frame', thresh)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         thresh = cv2.resize(thresh, (32,32), interpolation = cv2.INTER_AREA)
 
