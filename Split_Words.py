@@ -1,7 +1,20 @@
 import cv2
 import numpy as np
 
+def Sorting_Key(contour):
+    global Lines, Length, Size
+
+    M = cv2.moments(contour)
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+
+    for i in range(Length):
+        if cy > Lines[i][0] and cy < Lines[i][1]:
+            return cx + ((i + 1) * Size)
+
 def Split(img):
+    global Lines, Length
+
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
@@ -15,8 +28,26 @@ def Split(img):
 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
     thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 2)
-   
+
+    h_proj = np.sum(thresh, axis = 1)
+
+    upper = None
+    lower = None
+    Lines = []
+    for i in h_proj:
+        if i != 0 and upper == None:
+            upper = i
+        elif i != 0 and upper != None and lower == None:
+            lower = i
+            Lines.append([upper, lower])
+            upper = None
+            lower = None
+
+    Length = len(Lines)
+    Size = thresh.shape[1]
+
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    contours.sort(key = Sorting_Key)
 
     Words = []
 

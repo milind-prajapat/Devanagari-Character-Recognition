@@ -56,13 +56,7 @@ def Split(Words):
         bounding_rects = []
         for contour in contours:
             if cv2.contourArea(contour) > 200:
-                x, y, w, h = cv2.boundingRect(contour)
-                x = max(0, x - 3) 
-                y = max(0, y - thickness)
-                h += thickness + 3
-                w += 6
-
-                bounding_rects.append((x, y, w, h))
+                bounding_rects.append(cv2.boundingRect(contour))
 
         Length = len(bounding_rects)
         avg = 0
@@ -81,6 +75,11 @@ def Split(Words):
                 y = bounding_rects[index][1]
                 w = bounding_rects[index][2]
                 h = bounding_rects[index][3]
+
+                x = max(0, x - 3) 
+                y = max(0, y - thickness)
+                h = min(Word.shape[0], h + thickness + 3)
+                w = min(Word.shape[1], w + 6)
 
                 Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
                 Character.fill(255)
@@ -106,6 +105,11 @@ def Split(Words):
         y = bounding_rects[-1][1]
         w = bounding_rects[-1][2]
         h = bounding_rects[-1][3]
+
+        x = max(0, x - 3) 
+        y = max(0, y - thickness)
+        h = min(Word.shape[0], h + thickness + 3)
+        w = min(Word.shape[1], w + 6)
 
         Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
         Character.fill(255)
