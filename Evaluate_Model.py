@@ -1,9 +1,7 @@
 import os
 import cv2
-import Split_Words
 import numpy as np
 import pandas as pd
-import Split_Characters
 import Predict_Characters
 
 from sklearn.metrics import accuracy_score

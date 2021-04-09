@@ -1,10 +1,7 @@
-import os
 import cv2
 import copy
 import numpy as np
-import pandas as pd
 from keras.models import load_model
-from keras.utils import to_categorical
 
 model = load_model("best_val_loss.hdf5")
 
