@@ -1,18 +1,15 @@
 import cv2
+import math
 import copy
 import numpy as np
 
-def Sorting_Key(contour):
-    M = cv2.moments(contour)
-    cx = int(M['m10']/M['m00'])
-    cy = int(M['m01']/M['m00'])
+def Sorting_Key(rect):
+    x, y, w, h = rect
+
+    cx = x + int(w / 2)
+    cy = y + int(h / 2)
 
     return cx
-
-def Sorting_Key_Line(contour):
-    _, _, w, h = cv2.boundingRect(contour)
-    
-    return w / h
 
 def Split(Words):
     Word_Characters = []
@@ -25,65 +22,38 @@ def Split(Words):
         div = gray / morph
         gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
 
-        sobel = cv2.Sobel(gray, cv2.CV_16S, 0, 1)
-        sobel = cv2.convertScaleAbs(sobel)
+        _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY_INV)
 
-        blur = cv2.medianBlur(sobel, 5)
-        _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (10, 2))
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
-        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        contours.sort(key = Sorting_Key_Line, reverse = True)
-
-        _, _, w, h = cv2.boundingRect(contours[0])
-        thickness = h
-        cv2.drawContours(thresh, [contours[0]], 0, 255, -1)
-
-        for contour in contours[1:]:
-            cv2.drawContours(thresh, [contour], 0, 0, -1)
-
-        thresh = cv2.bitwise_not(thresh)
-        gray = cv2.bitwise_not(gray)
-        new_img = cv2.bitwise_and(thresh, gray)
-
-        blur = cv2.medianBlur(new_img, 5)
-        _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations = 1)
+        for row in range(int(thresh.shape[0] * 0.25)):
+            thresh[row] = 0
 
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        contours.sort(key = Sorting_Key)
-
+        
         bounding_rects = []
         for contour in contours:
-            if cv2.contourArea(contour) > 400:
-                bounding_rects.append(cv2.boundingRect(contour))
+            x, y, w, h = cv2.boundingRect(contour)
+            if w * h > 200:
+                bounding_rects.append((x, y, w, h))
+
+        bounding_rects.sort(key = Sorting_Key)
 
         Length = len(bounding_rects)
-        avg = 0
-        for index in range(Length - 1):
-            avg += (bounding_rects[index + 1][0] - (bounding_rects[index][0] + bounding_rects[index][2]))
-
-        avg /= Length
-        avg *= 0.9
-        
         Characters = []
         index = 0
         while index < (Length - 1):
-            distance = bounding_rects[index + 1][0] - (bounding_rects[index][0] + bounding_rects[index][2])
-            if distance >= avg:
+            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] < 3:
                 x = bounding_rects[index][0]
                 y = bounding_rects[index][1]
                 w = bounding_rects[index][2]
                 h = bounding_rects[index][3]
 
-                x = max(0, x - 3)
-                y = max(0, y - 3 - thickness)
+                x = max(0, x - 3)  
                 w = min(Word.shape[1] - x, w + 6)
-                h = min(Word.shape[0] - y, h + 6 + thickness)
+                h = min(Word.shape[0], h + y + 6)
+                y = 0
 
                 Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
                 Character.fill(255)
@@ -95,10 +65,10 @@ def Split(Words):
 
                 Characters.append(Character.copy())
             else:
-                x = bounding_rects[index][0]
-                w = bounding_rects[index + 1][0] - bounding_rects[index][0] + bounding_rects[index + 1][2]
+                x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
+                w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
                 y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
-                h = max(bounding_rects[index][1] + bounding_rects[index][3], bounding_rects[index + 1][1] + bounding_rects[index + 1][3])
+                h = max(bounding_rects[index][1] + bounding_rects[index][3], bounding_rects[index + 1][1] + bounding_rects[index + 1][3]) - y
 
                 bounding_rects[index] = (x, y, w, h)
                 del bounding_rects[index + 1]
@@ -112,9 +82,9 @@ def Split(Words):
         h = bounding_rects[-1][3]
 
         x = max(0, x - 3)
-        y = max(0, y - 3 - thickness)
         w = min(Word.shape[1] - x, w + 6)
-        h = min(Word.shape[0] - y, h + 6 + thickness)
+        h = min(Word.shape[0], h + y + 6)
+        y = 0
 
         Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
         Character.fill(255)

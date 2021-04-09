@@ -22,14 +22,10 @@ def Predict(Word_Characters):
             div = gray / morph
             gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
 
-            blur = cv2.medianBlur(gray, 5)
-            _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+            _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY_INV)
 
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-            thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 2)
-
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-            thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations = 2)
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+            thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
             thresh = cv2.resize(thresh, (32,32), interpolation = cv2.INTER_AREA)
 

@@ -22,10 +22,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Evaluate_Model.py" />
     <Compile Include="Model.py" />
-    <Compile Include="Evaluate_Model.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Split_Characters.py">
       <SubType>Code</SubType>
     </Compile>
