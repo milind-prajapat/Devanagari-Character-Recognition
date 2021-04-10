@@ -2,14 +2,6 @@ import cv2
 import copy
 import numpy as np
 
-def Sorting_Key(rect):
-    x, y, w, h = rect
-
-    cx = x + int(w / 2)
-    cy = y + int(h / 2)
-
-    return cx
-
 def Split(Words):
     Word_Characters = []
     for Word in Words:
@@ -37,63 +29,65 @@ def Split(Words):
             if w * h > 200:
                 bounding_rects.append((x, y, w, h))
 
-        bounding_rects.sort(key = Sorting_Key)
-
-        Length = len(bounding_rects)
         Characters = []
-        index = 0
-        while index < (Length - 1):
-            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] < 3:
-                x = bounding_rects[index][0]
-                y = bounding_rects[index][1]
-                w = bounding_rects[index][2]
-                h = bounding_rects[index][3]
+        if len(bounding_rects):
+            bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
 
-                x = max(0, x - 3)  
-                w = min(Word.shape[1] - x, w + 6)
-                h = min(Word.shape[0], h + y + 6)
-                y = 0
+            Length = len(bounding_rects)
+            
+            index = 0
+            while index < (Length - 1):
+                if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] < 3:
+                    x = bounding_rects[index][0]
+                    y = bounding_rects[index][1]
+                    w = bounding_rects[index][2]
+                    h = bounding_rects[index][3]
 
-                Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
-                Character.fill(255)
+                    x = max(0, x - 3)  
+                    w = min(Word.shape[1] - x, w + 6)
+                    h = min(Word.shape[0], h + y + 6)
+                    y = 0
 
-                if w > h:
-                    Character[int((w - h) / 2):int((w + h) / 2), :] = Word[y:y + h, x:x + w]
+                    Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
+                    Character.fill(255)
+
+                    if w > h:
+                        Character[int((w - h) / 2):int((w + h) / 2), :] = Word[y:y + h, x:x + w]
+                    else:
+                        Character[:, int((h - w) / 2):int((w + h) / 2)] = Word[y:y + h, x:x + w]
+
+                    Characters.append(Character.copy())
                 else:
-                    Character[:, int((h - w) / 2):int((w + h) / 2)] = Word[y:y + h, x:x + w]
+                    x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
+                    w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
+                    y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
+                    h = max(bounding_rects[index][1] + bounding_rects[index][3], bounding_rects[index + 1][1] + bounding_rects[index + 1][3]) - y
 
-                Characters.append(Character.copy())
+                    bounding_rects[index] = (x, y, w, h)
+                    del bounding_rects[index + 1]
+                    index -= 1
+                    Length -= 1
+                index += 1
+
+            x = bounding_rects[-1][0]
+            y = bounding_rects[-1][1]
+            w = bounding_rects[-1][2]
+            h = bounding_rects[-1][3]
+
+            x = max(0, x - 3)
+            w = min(Word.shape[1] - x, w + 6)
+            h = min(Word.shape[0], h + y + 6)
+            y = 0
+
+            Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
+            Character.fill(255)
+
+            if w > h:
+                Character[int((w - h) / 2):int((w + h) / 2), :] = Word[y:y + h, x:x + w]
             else:
-                x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
-                w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
-                y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
-                h = max(bounding_rects[index][1] + bounding_rects[index][3], bounding_rects[index + 1][1] + bounding_rects[index + 1][3]) - y
+                Character[:, int((h - w) / 2):int((w + h) / 2)] = Word[y:y + h, x:x + w]
 
-                bounding_rects[index] = (x, y, w, h)
-                del bounding_rects[index + 1]
-                index -= 1
-                Length -= 1
-            index += 1
-
-        x = bounding_rects[-1][0]
-        y = bounding_rects[-1][1]
-        w = bounding_rects[-1][2]
-        h = bounding_rects[-1][3]
-
-        x = max(0, x - 3)
-        w = min(Word.shape[1] - x, w + 6)
-        h = min(Word.shape[0], h + y + 6)
-        y = 0
-
-        Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
-        Character.fill(255)
-
-        if w > h:
-            Character[int((w - h) / 2):int((w + h) / 2), :] = Word[y:y + h, x:x + w]
-        else:
-            Character[:, int((h - w) / 2):int((w + h) / 2)] = Word[y:y + h, x:x + w]
-
-        Characters.append(Character.copy())
+            Characters.append(Character.copy())
 
         Word_Characters.append(copy.deepcopy(Characters))
 
