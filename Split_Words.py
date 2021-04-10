@@ -35,7 +35,7 @@ def Split(img):
     Length = len(contours)
     while i < Length:
         x, y, w, h = cv2.boundingRect(contours[i])
-        if w * h <= 200 or w < 15 or h / w > 5:
+        if w * h <= 200 or w < 10 or h / w > 5:
             cv2.drawContours(thresh, [contours[i]], 0, 0, -1)
             del contours[i]
             i -= 1
@@ -51,7 +51,7 @@ def Split(img):
         proj = h_proj[i]
         if proj > 1275 and upper == None:
             upper = i
-        elif proj < 1275 and upper != None and lower == None:
+        elif proj < 1275 and upper != None and lower == None and i - upper >= 10:
             lower = i
             Lines.append([upper, lower])
             upper = None
@@ -93,7 +93,7 @@ def Split(img):
                                all([bounding_rects[j][0] + bounding_rects[j][2] >= x, bounding_rects[j][0] + bounding_rects[j][2] <= x + w, bounding_rects[j][1] >= y, bounding_rects[j][1] <= y + h]),
                                all([bounding_rects[j][0] >= x, bounding_rects[j][0] <= x + w, bounding_rects[j][1] + bounding_rects[j][3] >= y, bounding_rects[j][1] + bounding_rects[j][3] <= y + h]),
                                all([bounding_rects[j][0] + bounding_rects[j][2] >= x, bounding_rects[j][0] + bounding_rects[j][2] <= x + w, bounding_rects[j][1] + bounding_rects[j][3] >= y, bounding_rects[j][1] + bounding_rects[j][3] <= y + h]),
-                               all([distancex <= 15, bounding_rects[i][3] + bounding_rects[j][3] >= threshy]), all([bounding_rects[i][2] + bounding_rects[j][2] >= threshx, distancey <= 15])]):
+                               all([distancex <= 15, bounding_rects[i][3] + bounding_rects[j][3] + 15 >= threshy]), all([bounding_rects[i][2] + bounding_rects[j][2] + 15 >= threshx, distancey <= 15])]):
                 
                 x = min(bounding_rects[i][0], bounding_rects[j][0])
                 w = max(bounding_rects[i][0] + bounding_rects[i][2], bounding_rects[j][0] + bounding_rects[j][2]) - x
