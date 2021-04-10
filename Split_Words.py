@@ -79,8 +79,6 @@ def Split(img):
             distancex = abs(bounding_rects[j][0] - (bounding_rects[i][0] + bounding_rects[i][2]))
             distancey = abs(bounding_rects[j][1] - (bounding_rects[i][1] + bounding_rects[i][3]))
 
-            print(distancex, distancey)
-
             threshx = max(abs(bounding_rects[j][0] - (bounding_rects[i][0] + bounding_rects[i][2])),
                           abs(bounding_rects[j][0] - bounding_rects[i][0]),
                           abs((bounding_rects[j][0] + bounding_rects[j][2]) - bounding_rects[i][0]),
