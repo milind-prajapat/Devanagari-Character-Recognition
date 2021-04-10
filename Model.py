@@ -1,10 +1,10 @@
 import os
-from keras.optimizers import Adam
-from keras.models import Sequential
-from keras.models import load_model
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger, EarlyStopping
-from keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Flatten, Dense
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger, EarlyStopping
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Flatten, Dense
 
 trainDataGen = ImageDataGenerator(rotation_range = 5,
                                   width_shift_range = 0.1,
@@ -21,14 +21,14 @@ trainGenerator = trainDataGen.flow_from_directory(os.path.join("Splitted_Dataset
                                                   target_size = (32,32),
                                                   batch_size = 32,
                                                   color_mode = "grayscale",
-                                                  classes = [str(class_id) for class_id in range(59)],
+                                                  classes = [str(class_id) for class_id in range(49)],
                                                   class_mode = "categorical")
 
 validationGenerator = testDataGen.flow_from_directory(os.path.join("Splitted_Dataset", "Validation"),
                                                       target_size = (32,32),
                                                       batch_size = 32,
                                                       color_mode = "grayscale",
-                                                      classes = [str(class_id) for class_id in range(59)],
+                                                      classes = [str(class_id) for class_id in range(49)],
                                                       class_mode = "categorical")
 
 model = Sequential()

@@ -29,52 +29,55 @@ def Split(Words):
             if w * h > 200:
                 bounding_rects.append((x, y, w, h))
 
-        Characters = []
-        if len(bounding_rects):
-            bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
+        i = 0  
+        Length = len(bounding_rects) 
+        while i < Length:
+            x, y, w, h = bounding_rects[i]
+            j = 0
+           
+            while j < Length:
 
-            Length = len(bounding_rects)
-            
-            index = 0
-            while index < (Length - 1):
-                if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] < 3:
-                    x = bounding_rects[index][0]
-                    y = bounding_rects[index][1]
-                    w = bounding_rects[index][2]
-                    h = bounding_rects[index][3]
+                if i != j and all([not any([all([bounding_rects[j][1] > y + h, bounding_rects[j][1] + bounding_rects[j][3] > y + h]), all([bounding_rects[j][1] < y, bounding_rects[j][1] + bounding_rects[j][3] < y])]),
+                                   not any([all([bounding_rects[j][0] > x + w, bounding_rects[j][0] + bounding_rects[j][2] > x + w]), all([bounding_rects[j][0] < x, bounding_rects[j][0] + bounding_rects[j][2] < x])])]):
 
-                    x = max(0, x - 3)  
-                    w = min(Word.shape[1] - x, w + 6)
-                    h = min(Word.shape[0], h + y + 6)
-                    y = 0
+                    x = min(bounding_rects[i][0], bounding_rects[j][0])
+                    w = max(bounding_rects[i][0] + bounding_rects[i][2], bounding_rects[j][0] + bounding_rects[j][2]) - x
+                    y = min(bounding_rects[i][1], bounding_rects[j][1])
+                    h = max(bounding_rects[i][1] + bounding_rects[i][3], bounding_rects[j][1] + bounding_rects[j][3]) - y
 
-                    Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
-                    Character.fill(255)
+                    bounding_rects[i] = (x, y, w, h)
 
-                    if w > h:
-                        Character[int((w - h) / 2):int((w + h) / 2), :] = Word[y:y + h, x:x + w]
-                    else:
-                        Character[:, int((h - w) / 2):int((w + h) / 2)] = Word[y:y + h, x:x + w]
-
-                    Characters.append(Character.copy())
-                else:
-                    x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
-                    w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
-                    y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
-                    h = max(bounding_rects[index][1] + bounding_rects[index][3], bounding_rects[index + 1][1] + bounding_rects[index + 1][3]) - y
-
-                    bounding_rects[index] = (x, y, w, h)
-                    del bounding_rects[index + 1]
-                    index -= 1
+                    del bounding_rects[j]
+                    i = -1
                     Length -= 1
-                index += 1
+                    break
 
-            x = bounding_rects[-1][0]
-            y = bounding_rects[-1][1]
-            w = bounding_rects[-1][2]
-            h = bounding_rects[-1][3]
+                j += 1
+            i += 1
 
-            x = max(0, x - 3)
+        bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
+        
+        index = 0
+        Length = len(bounding_rects)  
+        while index < (Length - 1):
+            x, y, w, h = bounding_rects[index]
+
+            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3:
+                x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
+                w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
+                y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
+                h = max(bounding_rects[index][1] + bounding_rects[index][3], bounding_rects[index + 1][1] + bounding_rects[index + 1][3]) - y
+
+                bounding_rects[index] = (x, y, w, h)
+                del bounding_rects[index + 1]
+                index -= 1
+                Length -= 1
+
+            index += 1
+        
+        Characters = []
+        for x, y, w, h in bounding_rects:
+            x = max(0, x - 3)  
             w = min(Word.shape[1] - x, w + 6)
             h = min(Word.shape[0], h + y + 6)
             y = 0

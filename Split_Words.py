@@ -35,7 +35,7 @@ def Split(img):
     Length = len(contours)
     while i < Length:
         x, y, w, h = cv2.boundingRect(contours[i])
-        if w * h <= 200 or w < 10 or h / w > 5:
+        if w * h <= 200 or h < 10 or w < 10 or h / w > 4:
             cv2.drawContours(thresh, [contours[i]], 0, 0, -1)
             del contours[i]
             i -= 1
@@ -89,11 +89,9 @@ def Split(img):
                           abs((bounding_rects[j][1] + bounding_rects[j][3]) - bounding_rects[i][1]),
                           abs((bounding_rects[j][1] + bounding_rects[j][3]) - (bounding_rects[i][1] + bounding_rects[i][3])))
 
-            if i != j and any([all([bounding_rects[j][0] >= x, bounding_rects[j][0] <= x + w, bounding_rects[j][1] >= y, bounding_rects[j][1] <= y + h]),
-                               all([bounding_rects[j][0] + bounding_rects[j][2] >= x, bounding_rects[j][0] + bounding_rects[j][2] <= x + w, bounding_rects[j][1] >= y, bounding_rects[j][1] <= y + h]),
-                               all([bounding_rects[j][0] >= x, bounding_rects[j][0] <= x + w, bounding_rects[j][1] + bounding_rects[j][3] >= y, bounding_rects[j][1] + bounding_rects[j][3] <= y + h]),
-                               all([bounding_rects[j][0] + bounding_rects[j][2] >= x, bounding_rects[j][0] + bounding_rects[j][2] <= x + w, bounding_rects[j][1] + bounding_rects[j][3] >= y, bounding_rects[j][1] + bounding_rects[j][3] <= y + h]),
-                               all([distancex <= 15, bounding_rects[i][3] + bounding_rects[j][3] + 15 >= threshy]), all([bounding_rects[i][2] + bounding_rects[j][2] + 15 >= threshx, distancey <= 15])]):
+            if i != j and any([all([not any([all([bounding_rects[j][1] > y + h, bounding_rects[j][1] + bounding_rects[j][3] > y + h]), all([bounding_rects[j][1] < y, bounding_rects[j][1] + bounding_rects[j][3] < y])]),
+                                   not any([all([bounding_rects[j][0] > x + w, bounding_rects[j][0] + bounding_rects[j][2] > x + w]), all([bounding_rects[j][0] < x, bounding_rects[j][0] + bounding_rects[j][2] < x])])]),
+                              all([distancex <= 15, bounding_rects[i][3] + bounding_rects[j][3] + 15 >= threshy]), all([bounding_rects[i][2] + bounding_rects[j][2] + 15 >= threshx, distancey <= 15])]):
                 
                 x = min(bounding_rects[i][0], bounding_rects[j][0])
                 w = max(bounding_rects[i][0] + bounding_rects[i][2], bounding_rects[j][0] + bounding_rects[j][2]) - x
