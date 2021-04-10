@@ -16,16 +16,16 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               36: '०', 37: '१', 38: '२', 39: '३', 40: '४', 41: '५', 42: '६', 43: '७', 44: '८', 45: '९',
               46: 'अ', 47: 'आ', 48: 'इ', 49: 'ई', 50: 'उ', 51: 'ऊ', 52: 'ऋ', 53: 'ए', 54: 'ऐ', 55: 'ओ', 56: 'औ', 57: 'अं', 58: 'अ:'}
 
-Path = "Test"
+Path = "Words"
 
-#for Image_Name in os.listdir(Path):
-Words = Split_Words.Split(cv2.imread(os.path.join(Path, '58.jpg')))
-Word_Characters = Split_Characters.Split(Words)
-Predictions = Predict_Characters.Predict(Word_Characters)
+for Image_Name in os.listdir(Path):
+    Words = Split_Words.Split(cv2.imread(os.path.join(Path, Image_Name)))
+    Word_Characters = Split_Characters.Split(Words)
+    Predictions = Predict_Characters.Predict(Word_Characters)
 
-for Prediction in Predictions:
-    Word = ""
-    for class_id in Prediction:
-        Word += Label_Dict[class_id]
-    print(Word, end = " ")
-print("")
+    for Prediction in Predictions:
+        Word = ""
+        for class_id in Prediction:
+            Word += Label_Dict[class_id]
+        print(Word, end = " ")
+    print("")
