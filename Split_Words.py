@@ -88,10 +88,6 @@ def Split(img):
     Length = len(Lines)
     bounding_rects.sort(key = Sorting_Key)
 
-    out = img.copy()
-    for x,y,w,h in bounding_rects:
-        cv2.rectangle(out, (x,y), (x+w,y+h), (0,255,0), 5)
-
     Words = []
 
     for x, y, w, h in bounding_rects:
