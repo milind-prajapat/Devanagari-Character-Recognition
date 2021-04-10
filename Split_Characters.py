@@ -25,9 +25,8 @@ def Split(Words):
         
         bounding_rects = []
         for contour in contours:
-            x, y, w, h = cv2.boundingRect(contour)
-            if w * h > 200:
-                bounding_rects.append((x, y, w, h))
+            if cv2.contourArea(contour) > 200:
+                bounding_rects.append(cv2.boundingRect(contour))
 
         i = 0  
         Length = len(bounding_rects) 
@@ -62,7 +61,7 @@ def Split(Words):
         while index < (Length - 1):
             x, y, w, h = bounding_rects[index]
 
-            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3:
+            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3.5:
                 x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
                 w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
                 y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
