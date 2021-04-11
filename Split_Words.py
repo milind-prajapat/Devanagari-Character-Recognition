@@ -92,7 +92,7 @@ def Split(img):
 
             if i != j and any([all([not any([all([bounding_rects[j][1] > y + h, bounding_rects[j][1] + bounding_rects[j][3] > y + h]), all([bounding_rects[j][1] < y, bounding_rects[j][1] + bounding_rects[j][3] < y])]),
                                    not any([all([bounding_rects[j][0] > x + w, bounding_rects[j][0] + bounding_rects[j][2] > x + w]), all([bounding_rects[j][0] < x, bounding_rects[j][0] + bounding_rects[j][2] < x])])]),
-                              all([distancex <= 15, bounding_rects[i][3] + bounding_rects[j][3] + 15 >= threshy]), all([bounding_rects[i][2] + bounding_rects[j][2] + 15 >= threshx, distancey <= 15])]):
+                              all([distancex <= 10, bounding_rects[i][3] + bounding_rects[j][3] + 10 >= threshy]), all([bounding_rects[i][2] + bounding_rects[j][2] + 10 >= threshx, distancey <= 10])]):
                 
                 x = min(bounding_rects[i][0], bounding_rects[j][0])
                 w = max(bounding_rects[i][0] + bounding_rects[i][2], bounding_rects[j][0] + bounding_rects[j][2]) - x
@@ -129,20 +129,76 @@ def Split(img):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
+        h_proj = np.sum(thresh, axis = 1)
+
+        starting = None
+        for i in range(h_proj.shape[0]):
+            proj = h_proj[i]
+            if proj != 0:
+                starting = i
+                break
+
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
         contours = np.vstack(contours)
 
         rect = cv2.minAreaRect(contours)
         Box = cv2.boxPoints(rect)
-        Box = np.int0(Box)
-
+        
         index = np.argmin(np.sum(Box, axis = 1))
 
         box = []
         box.extend(Box[index:])
         box.extend(Box[0:index])
-           
+
+        x1 = (box[0][0] + box[1][0]) / 2
+        y1 = (box[0][1] + box[1][1]) / 2
+
+        x2 = (box[2][0] + box[3][0]) / 2
+        y2 = (box[2][1] + box[3][1]) / 2
+
+        a = y2 - y1
+        b = x1 - x2
+        c = (x2 * y1) - (y2 * x1)
+
+        cy = starting
+        cx = (-1) * ((b * cy) + c) / a
+
+        a1 = -b
+        b1 = a
+        c1 = (-1) * (a1 * cx + b1 * cy)
+
+        x1 = box[0][0]
+        y1 = box[0][1]
+
+        x2 = box[3][0]
+        y2 = box[3][1]
+
+        a2 = y2 - y1
+        b2 = x1 - x2
+        c2 = (x2 * y1) - (y2 * x1)
+
+        cx = ((c2 * b1) - (c1 * b2)) / ((a1 * b2) - (a2 * b1))
+        cy = ((c2 * a1) - (c1 * a2)) / ((b1 * a2) - (b2 * a1))
+
+        box[0] = [cx, cy]
+
+        x1 = box[1][0]
+        y1 = box[1][1]
+
+        x2 = box[2][0]
+        y2 = box[2][1]
+
+        a2 = y2 - y1
+        b2 = x1 - x2
+        c2 = (x2 * y1) - (y2 * x1)
+
+        cx = ((c2 * b1) - (c1 * b2)) / ((a1 * b2) - (a2 * b1))
+        cy = ((c2 * a1) - (c1 * a2)) / ((b1 * a2) - (b2 * a1))
+
+        box[1] = [cx, cy]
+
+        box = np.int0(box)   
         shape = (box[1][0] - box[0][0], box[3][1] - box[0][1])
 
         src = np.float32(box)

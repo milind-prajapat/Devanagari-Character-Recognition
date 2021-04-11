@@ -18,17 +18,29 @@ def Split(Words):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
-        for row in range(int(thresh.shape[0] * 0.25)):
-            thresh[row] = 0
+        h_proj = np.sum(thresh, axis = 1)
+        Max = np.max(h_proj) / 2
 
+        upper = None
+        lower = None
+        for i in range(h_proj.shape[0]):
+            proj = h_proj[i]
+            if proj > Max and upper == None:
+                upper = i
+            elif proj < Max and upper != None and lower == None:
+                lower = i
+
+        for row in range(lower + 3):
+            thresh[row] = 0
+        
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         
         bounding_rects = []
         for contour in contours:
             x, y, w, h = cv2.boundingRect(contour)
-            if w * h > 200:
+            if w * h > 100:
                 bounding_rects.append((x, y, w, h))
-
+        
         bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
         
         index = 0
@@ -36,7 +48,19 @@ def Split(Words):
         while index < (Length - 1):
             x, y, w, h = bounding_rects[index]
 
-            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3:
+            x_left = max(x, bounding_rects[index + 1][0])
+            y_top = max(y, bounding_rects[index + 1][1])
+            x_right = min(x + w,  bounding_rects[index + 1][0] +  bounding_rects[index + 1][2])
+            y_bottom = min(y + h, bounding_rects[index + 1][1] +  bounding_rects[index + 1][3])
+
+            intersection_area = max(0, (x_right - x_left)) * max(0, (y_bottom - y_top))
+            union = float((bounding_rects[index][2] * bounding_rects[index][3]) + (bounding_rects[index + 1][2] * bounding_rects[index + 1][3]) - intersection_area)
+
+            area_ratio = (bounding_rects[index + 1][2] * bounding_rects[index + 1][3]) / union
+
+            ratio = (bounding_rects[index][2] * bounding_rects[index][3]) / (w * h)
+
+            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3 or ratio <= 0.25 or area_ratio > 0.9:
                 x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
                 w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
                 y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
@@ -48,7 +72,7 @@ def Split(Words):
                 Length -= 1
 
             index += 1
-        
+
         Characters = []
         for x, y, w, h in bounding_rects:
             x = max(0, x - 3)  
