@@ -34,7 +34,8 @@ def Split(img):
     i = 0
     Length = len(contours)
     while i < Length:
-        if cv2.contourArea(contours[i]) < 200:
+        x, y, w, h = cv2.boundingRect(contours[i])
+        if w * h <= 200 or h < 10 or w < 10 or h / w > 4:
             cv2.drawContours(thresh, [contours[i]], 0, 0, -1)
             del contours[i]
             i -= 1
@@ -48,12 +49,11 @@ def Split(img):
     Lines = []
     for i in range(h_proj.shape[0]):
         proj = h_proj[i]
-        if proj != 0 and upper == None:
+        if proj > 1275 and upper == None:
             upper = i
-        elif proj == 0 and upper != None and lower == None:
+        elif proj < 1275 and upper != None and lower == None and i - upper >= 10:
             lower = i
-            if lower - upper >= 15:
-                Lines.append([upper, lower])
+            Lines.append([upper, lower])
             upper = None
             lower = None
 
