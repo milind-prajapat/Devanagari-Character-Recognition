@@ -29,32 +29,6 @@ def Split(Words):
             if w * h > 200:
                 bounding_rects.append((x, y, w, h))
 
-        i = 0  
-        Length = len(bounding_rects) 
-        while i < Length:
-            x, y, w, h = bounding_rects[i]
-            j = 0
-           
-            while j < Length:
-
-                if i != j and all([not any([all([bounding_rects[j][1] > y + h, bounding_rects[j][1] + bounding_rects[j][3] > y + h]), all([bounding_rects[j][1] < y, bounding_rects[j][1] + bounding_rects[j][3] < y])]),
-                                   not any([all([bounding_rects[j][0] > x + w, bounding_rects[j][0] + bounding_rects[j][2] > x + w]), all([bounding_rects[j][0] < x, bounding_rects[j][0] + bounding_rects[j][2] < x])])]):
-
-                    x = min(bounding_rects[i][0], bounding_rects[j][0])
-                    w = max(bounding_rects[i][0] + bounding_rects[i][2], bounding_rects[j][0] + bounding_rects[j][2]) - x
-                    y = min(bounding_rects[i][1], bounding_rects[j][1])
-                    h = max(bounding_rects[i][1] + bounding_rects[i][3], bounding_rects[j][1] + bounding_rects[j][3]) - y
-
-                    bounding_rects[i] = (x, y, w, h)
-
-                    del bounding_rects[j]
-                    i = -1
-                    Length -= 1
-                    break
-
-                j += 1
-            i += 1
-
         bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
         
         index = 0
