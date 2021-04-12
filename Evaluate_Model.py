@@ -2,7 +2,6 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-import Predict_Characters
 
 from scipy import stats
 from sklearn.metrics import accuracy_score
@@ -15,8 +14,7 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               20: 'प', 21: 'फ', 22: 'ब', 23: 'भ', 24: 'म',
               25: 'य', 26: 'र', 27: 'ल', 28: 'व', 29: 'श',
               30: 'ष', 31: 'स', 32: 'ह', 33: 'क्ष', 34: 'त्र', 35: 'ज्ञ',
-              36: '०', 37: '१', 38: '२', 39: '३', 40: '४', 41: '५', 42: '६', 43: '७', 44: '८', 45: '९',
-              46: 'अ', 47: 'आ', 48: 'इ', 49: 'ई', 50: 'उ', 51: 'ऊ', 52: 'ऋ', 53: 'ए', 54: 'ऐ', 55: 'ओ', 56: 'औ', 57: 'अं', 58: 'अ:'}
+              36: 'अ', 37: 'आ', 38: 'इ', 39: 'ई', 40: 'उ', 41: 'ऊ', 42: 'ऋ', 43: 'ए', 44: 'ऐ', 45: 'ओ', 46: 'औ', 47: 'अं', 48: 'अ:'}
 
 df = pd.read_csv(os.path.join("Splitted_Dataset", "Reference.csv"))
 
@@ -34,18 +32,3 @@ Predictions = stats.mode(Predictions)[0][0]
 
 acc = accuracy_score(y_validation, Predictions)
 print('Accuracy on Validation Data :', '{:.4%}'.format(acc))
-
-df = pd.read_csv(os.path.join("Test", "Reference.csv"))
-
-Characters = [[cv2.imread(img) for img in df.iloc[:,0]]]
-y_pred = np.array(Predict_Characters.Predict(Characters)).reshape(-1).tolist()
-y_true = df.iloc[:, 1].values.tolist()
-
-acc = accuracy_score(y_true, y_pred)
-print("Accuracy on Test Data :", "{:.4%}".format(acc))
-
-y_pred = [Label_Dict[class_id] for class_id in y_pred]
-y_true = [Label_Dict[class_id] for class_id in y_true]
-
-Results = pd.DataFrame(list(zip(df.iloc[:, 0], y_true, y_pred)), columns = ["File_Name", "Actual", "Prediction"])
-Results.to_csv(os.path.join("Test", "Final_Results.csv"), index = False)
