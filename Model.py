@@ -72,16 +72,8 @@ callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
 
 model.fit(trainGenerator, epochs = 50, validation_data = validationGenerator, callbacks = callbacks)
 
-model = load_model('best_val_acc.hdf5')
-loss, acc = model.evaluate(validationGenerator)
-
-print("Best Accuracy Model:")
-print('Loss on Validation Data : ', loss)
-print('Accuracy on Validation Data :', '{:.4%}'.format(acc))
-
 model = load_model('best_val_loss.hdf5')
 loss, acc = model.evaluate(validationGenerator)
 
-print("Best Loss Model:")
 print('Loss on Validation Data : ', loss)
 print('Accuracy on Validation Data :', '{:.4%}'.format(acc))

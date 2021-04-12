@@ -4,8 +4,6 @@ import Split_Words
 import Split_Characters
 import Predict_Characters
 
-os.system("cls")
-
 Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               5: 'च', 6: 'छ', 7: 'ज', 8: 'झ', 9: 'ञ',
               10: 'ट', 11: 'ठ', 12: 'ड', 13: 'ढ', 14: 'ण',

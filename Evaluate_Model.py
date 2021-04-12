@@ -3,10 +3,9 @@ import cv2
 import numpy as np
 import pandas as pd
 import Predict_Characters
-
 from sklearn.metrics import accuracy_score
-
-os.system("cls")
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               5: 'च', 6: 'छ', 7: 'ज', 8: 'झ', 9: 'ञ',
@@ -17,6 +16,21 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               30: 'ष', 31: 'स', 32: 'ह', 33: 'क्ष', 34: 'त्र', 35: 'ज्ञ',
               36: '०', 37: '१', 38: '२', 39: '३', 40: '४', 41: '५', 42: '६', 43: '७', 44: '८', 45: '९',
               46: 'अ', 47: 'आ', 48: 'इ', 49: 'ई', 50: 'उ', 51: 'ऊ', 52: 'ऋ', 53: 'ए', 54: 'ऐ', 55: 'ओ', 56: 'औ', 57: 'अं', 58: 'अ:'}
+
+testDataGen = ImageDataGenerator(rescale = 1.0/255)
+
+validationGenerator = testDataGen.flow_from_directory(os.path.join("Splitted_Dataset", "Validation"),
+                                                      target_size = (32,32),
+                                                      batch_size = 32,
+                                                      color_mode = "grayscale",
+                                                      classes = [str(class_id) for class_id in range(49)],
+                                                      class_mode = "categorical")
+
+model = load_model('best_val_loss.hdf5')
+loss, acc = model.evaluate(validationGenerator)
+
+print('Loss on Validation Data : ', loss)
+print('Accuracy on Validation Data :', '{:.4%}'.format(acc))
 
 df = pd.read_csv(os.path.join("Test", "Reference.csv"))
 

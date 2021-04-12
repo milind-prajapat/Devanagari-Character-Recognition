@@ -1,9 +1,13 @@
+import os
 import cv2
 import copy
 import numpy as np
 from keras.models import load_model
 
 model = load_model("best_val_loss.hdf5")
+model.predict(np.array([np.zeros([32,32], np.uint8)]).reshape(-1, 32, 32, 1))
+
+os.system("cls")
 
 def Predict(Word_Characters):
     Predictions = []

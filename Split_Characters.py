@@ -18,6 +18,8 @@ def Split(Words):
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
+        original_thresh = thresh.copy()
+
         h_proj = np.sum(thresh, axis = 1)
         Max = np.max(h_proj) / 2
 
@@ -29,6 +31,10 @@ def Split(Words):
                 upper = i
             elif proj < Max and upper != None and lower == None:
                 lower = i
+                break
+
+        if lower == None:
+            lower = int(h_proj.shape[0] / 2)
 
         for row in range(lower + 3):
             thresh[row] = 0
@@ -38,11 +44,11 @@ def Split(Words):
         bounding_rects = []
         for contour in contours:
             x, y, w, h = cv2.boundingRect(contour)
-            if w * h > 100:
+            if w * h > 50:
                 bounding_rects.append((x, y, w, h))
         
         bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
-        
+
         index = 0
         Length = len(bounding_rects)  
         while index < (Length - 1):
@@ -58,7 +64,7 @@ def Split(Words):
 
             area_ratio = (bounding_rects[index + 1][2] * bounding_rects[index + 1][3]) / union
 
-            ratio = (bounding_rects[index][2] * bounding_rects[index][3]) / (w * h)
+            ratio = (bounding_rects[index + 1][2] * bounding_rects[index + 1][3]) / (w * h)
 
             if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3 or ratio <= 0.25 or area_ratio > 0.9:
                 x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
@@ -75,10 +81,26 @@ def Split(Words):
 
         Characters = []
         for x, y, w, h in bounding_rects:
-            x = max(0, x - 3)  
+            x1 = max(0, x - 3)  
+            w1 = min(Word.shape[1] - x, w + 6)
+            h1 = min(Word.shape[0], h + y + 6)
+            y1 = 0
+
+            crop = original_thresh[y1:y1 + h1, x1:x1 + w1]
+            
+            h_proj = np.sum(crop, axis = 1)
+
+            padding = None
+            for i in range(h_proj.shape[0]):
+                proj = h_proj[i]
+                if proj != 0:
+                    padding = y - i
+                    break
+
+            x = max(0, x - 3)
+            y = max(0, y - padding)
             w = min(Word.shape[1] - x, w + 6)
-            h = min(Word.shape[0], h + y + 6)
-            y = 0
+            h = min(Word.shape[0] - y, h + 3 + padding)
 
             Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
             Character.fill(255)
