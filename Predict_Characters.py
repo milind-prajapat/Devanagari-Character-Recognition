@@ -2,10 +2,12 @@ import os
 import cv2
 import copy
 import numpy as np
+
+from scipy import stats
 from keras.models import load_model
 
-model = load_model("best_val_loss.hdf5")
-model.predict(np.array([np.zeros([32,32], np.uint8)]).reshape(-1, 32, 32, 1))
+Models = np.array([load_model(os.path.join(Path, 'best_val_loss.hdf5')) for Path in ["Model_1", "Model_2", "Model_3", "Model_4", "Model_5"]])
+Models[0].predict(np.array([np.zeros([32,32], np.uint8)]).reshape(-1, 32, 32, 1)) # To Avoid Printing The Warnings And Logs And Clear The Terminal
 
 os.system("cls")
 
@@ -34,7 +36,7 @@ def Predict(Word_Characters):
             thresh = cv2.resize(thresh, (32,32), interpolation = cv2.INTER_AREA)
 
             x = np.array([thresh]).reshape(-1, 32, 32, 1) / 255.0
-            Prediction.append(np.argmax(model.predict(x)))
+            Prediction.append(stats.mode(np.array([np.argmax(model.predict(x), axis = 1) for model in Models]))[0][0][0])
 
         Predictions.append(copy.deepcopy(Prediction))
     

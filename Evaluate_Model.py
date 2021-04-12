@@ -3,9 +3,10 @@ import cv2
 import numpy as np
 import pandas as pd
 import Predict_Characters
+
+from scipy import stats
 from sklearn.metrics import accuracy_score
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               5: 'च', 6: 'छ', 7: 'ज', 8: 'झ', 9: 'ञ',
@@ -17,26 +18,27 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               36: '०', 37: '१', 38: '२', 39: '३', 40: '४', 41: '५', 42: '६', 43: '७', 44: '८', 45: '९',
               46: 'अ', 47: 'आ', 48: 'इ', 49: 'ई', 50: 'उ', 51: 'ऊ', 52: 'ऋ', 53: 'ए', 54: 'ऐ', 55: 'ओ', 56: 'औ', 57: 'अं', 58: 'अ:'}
 
-testDataGen = ImageDataGenerator(rescale = 1.0/255)
+df = pd.read_csv(os.path.join("Splitted_Dataset", "Reference.csv"))
 
-validationGenerator = testDataGen.flow_from_directory(os.path.join("Splitted_Dataset", "Validation"),
-                                                      target_size = (32,32),
-                                                      batch_size = 32,
-                                                      color_mode = "grayscale",
-                                                      classes = [str(class_id) for class_id in range(49)],
-                                                      class_mode = "categorical")
+x_validation = []
+y_validation = []
+for class_id in df.loc[:,"class id"]:
+    for Image_Name in os.listdir(os.path.join("Splitted_Dataset", "Validation", str(class_id))):
+        x_validation.append(cv2.imread(os.path.join("Splitted_Dataset", "Validation", str(class_id), Image_Name), 0))
+        y_validation.append(class_id)
 
-model = load_model('best_val_loss.hdf5')
-loss, acc = model.evaluate(validationGenerator)
+x_validation = np.array(x_validation).reshape(-1, 32, 32, 1) / 255.0
 
-print('Loss on Validation Data : ', loss)
+Predictions = np.array([np.argmax(model.predict(x_validation), axis = 1) for model in Predict_Characters.Models])
+Predictions = stats.mode(Predictions)[0][0]
+
+acc = accuracy_score(y_validation, Predictions)
 print('Accuracy on Validation Data :', '{:.4%}'.format(acc))
 
 df = pd.read_csv(os.path.join("Test", "Reference.csv"))
 
 Characters = [[cv2.imread(img) for img in df.iloc[:,0]]]
 y_pred = np.array(Predict_Characters.Predict(Characters)).reshape(-1).tolist()
-
 y_true = df.iloc[:, 1].values.tolist()
 
 acc = accuracy_score(y_true, y_pred)

@@ -61,14 +61,14 @@ callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
                               patience = 7, min_lr = 1e-5),
              EarlyStopping(patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
                           min_delta = 1e-5),
-             CSVLogger("training.log", append = True),
-             ModelCheckpoint('backup_last_model.hdf5'),
-             ModelCheckpoint('best_val_acc.hdf5', monitor = 'val_accuracy', mode = 'max', save_best_only = True),
-             ModelCheckpoint('best_val_loss.hdf5', monitor = 'val_loss', mode = 'min', save_best_only = True)]
+             CSVLogger(r"Model_4/training.log", append = True),
+             ModelCheckpoint(r'Model_4/backup_last_model.hdf5'),
+             ModelCheckpoint(r'Model_4/best_val_acc.hdf5', monitor = 'val_accuracy', mode = 'max', save_best_only = True),
+             ModelCheckpoint(r'Model_4/best_val_loss.hdf5', monitor = 'val_loss', mode = 'min', save_best_only = True)]
 
 model.fit(trainGenerator, epochs = 50, validation_data = validationGenerator, callbacks = callbacks)
 
-model = load_model('best_val_loss.hdf5')
+model = load_model(r'Model_4/best_val_loss.hdf5')
 loss, acc = model.evaluate(validationGenerator)
 
 print('Loss on Validation Data : ', loss)
