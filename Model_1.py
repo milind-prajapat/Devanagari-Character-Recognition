@@ -4,7 +4,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger, EarlyStopping
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Flatten, Dense
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Dropout, Flatten, Dense
 
 trainDataGen = ImageDataGenerator(rotation_range = 5,
                                   width_shift_range = 0.1,
@@ -40,24 +40,20 @@ model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = "same"))
 model.add(Conv2D(32, (3, 3), strides = 1, activation = "relu"))
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = "same"))
-
-model.add(Conv2D(64, (3, 3), strides = 1, activation = "relu"))
-model.add(BatchNormalization())
-model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = "same"))
+model.add(Dropout(0.25))
 
 model.add(Conv2D(64, (3, 3), strides = 1, activation = "relu"))
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = "same"))
 
 model.add(Flatten())
+model.add(Dense(256, activation="relu", kernel_initializer='he_uniform'))
+model.add(Dropout(0.55))
 
-model.add(Dense(128, activation = "relu", kernel_initializer = "uniform"))
-model.add(BatchNormalization())
+model.add(Dense(100, activation="relu", kernel_initializer='he_uniform'))
+model.add(Dropout(0.35))
 
-model.add(Dense(64, activation = "relu", kernel_initializer = "uniform"))
-model.add(BatchNormalization())
-
-model.add(Dense(49, activation = "softmax", kernel_initializer = "uniform"))
+model.add(Dense(49, activation="softmax"))
 
 model.compile(optimizer = Adam(lr = 1e-3, decay = 1e-5), loss = "categorical_crossentropy", metrics = ['accuracy'])
 
@@ -72,16 +68,8 @@ callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
 
 model.fit(trainGenerator, epochs = 50, validation_data = validationGenerator, callbacks = callbacks)
 
-model = load_model('best_val_acc.hdf5')
-loss, acc = model.evaluate(validationGenerator)
-
-print("Best Accuracy Model:")
-print('Loss on Validation Data : ', loss)
-print('Accuracy on Validation Data :', '{:.4%}'.format(acc))
-
 model = load_model('best_val_loss.hdf5')
 loss, acc = model.evaluate(validationGenerator)
 
-print("Best Loss Model:")
 print('Loss on Validation Data : ', loss)
 print('Accuracy on Validation Data :', '{:.4%}'.format(acc))

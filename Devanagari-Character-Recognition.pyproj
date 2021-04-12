@@ -23,7 +23,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Evaluate_Model.py" />
-    <Compile Include="Model.py" />
+    <Compile Include="Model_1.py" />
+    <Compile Include="Model_2.py" />
+    <Compile Include="Model_3.py" />
+    <Compile Include="Model_4.py" />
+    <Compile Include="Model_5.py" />
     <Compile Include="Split_Characters.py">
       <SubType>Code</SubType>
     </Compile>
