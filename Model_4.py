@@ -34,7 +34,7 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join("Splitted_Dat
 
 model = Sequential()
 
-model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 32, 1)))
+model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
 model.add(Conv2D(32, (3, 3), strides = 1, activation = "relu"))
 model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = "same"))
