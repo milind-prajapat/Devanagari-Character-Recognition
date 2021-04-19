@@ -66,7 +66,7 @@ def Split(Words):
 
             ratio = (bounding_rects[index + 1][2] * bounding_rects[index + 1][3]) / (w * h)
 
-            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3 or ratio <= 0.25 or area_ratio > 0.9:
+            if bounding_rects[index + 1][3] / bounding_rects[index + 1][2] > 3 or ratio <= 0.25 or (area_ratio > 0.9 and intersection_area != 0):
                 x = min(bounding_rects[index][0], bounding_rects[index + 1][0])
                 w = max(bounding_rects[index][0] + bounding_rects[index][2], bounding_rects[index + 1][0] + bounding_rects[index + 1][2]) - x
                 y = min(bounding_rects[index][1], bounding_rects[index + 1][1])
