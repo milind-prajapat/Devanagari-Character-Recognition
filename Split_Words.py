@@ -35,8 +35,7 @@ def Split(img):
     Length = len(contours)
     while i < Length:
         x, y, w, h = cv2.boundingRect(contours[i])
-        if w * h <= 200 or h / w > 4:
-            cv2.drawContours(thresh, [contours[i]], 0, 0, -1)
+        if w * h <= 200:
             del contours[i]
             i -= 1
             Length -= 1
@@ -108,7 +107,6 @@ def Split(img):
             j += 1
         i += 1
 
-    Length = len(Lines)
     bounding_rects.sort(key = Sorting_Key)
 
     Words = []
