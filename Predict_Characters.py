@@ -7,9 +7,6 @@ from scipy import stats
 from keras.models import load_model
 
 Models = np.array([load_model(os.path.join(Path, 'best_val_loss.hdf5')) for Path in ["Model_1", "Model_2", "Model_3", "Model_4", "Model_5"]])
-Models[0].predict(np.array([np.zeros([32,32], np.uint8)]).reshape(-1, 32, 32, 1)) # To Avoid Printing The Warnings And Logs And Clear The Terminal
-
-os.system("cls")
 
 def Predict(Word_Characters):
     Predictions = []
@@ -21,19 +18,27 @@ def Predict(Word_Characters):
 
             kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
             morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-    
+
+            for i in range(morph.shape[0]):
+                for j in range(morph.shape[1]):
+                    if not morph[i][j]:
+                        morph[i][j] = 1
+            
             div = gray / morph
             gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
 
             _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY_INV)
 
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
             thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
             thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations = 1)
 
-            thresh = cv2.resize(thresh, (32,32), interpolation = cv2.INTER_AREA)
+            contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            contours.sort(key = cv2.contourArea, reverse = True)
+
+            thresh = cv2.resize(thresh, (32, 32), interpolation = cv2.INTER_AREA)
 
             x = np.array([thresh]).reshape(-1, 32, 32, 1) / 255.0
             Prediction.append(stats.mode(np.array([np.argmax(model.predict(x), axis = 1) for model in Models]))[0][0][0])

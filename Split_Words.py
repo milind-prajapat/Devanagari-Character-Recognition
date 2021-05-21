@@ -20,6 +20,11 @@ def Split(img):
 
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
     morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
+
+    for i in range(morph.shape[0]):
+        for j in range(morph.shape[1]):
+            if not morph[i][j]:
+                morph[i][j] = 1
     
     div = gray / morph
     gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
@@ -52,7 +57,7 @@ def Split(img):
             upper = i
         elif proj == 0 and upper != None and lower == None:
             lower = i
-            if lower - upper >= 15:
+            if lower - upper >= 30:
                 Lines.append([upper, lower])
             upper = None
             lower = None
@@ -68,7 +73,7 @@ def Split(img):
 
         for upper, lower in Lines:
             if not any([all([upper > y + h, lower > y + h]), all([upper < y, lower < y])]):
-                bounding_rects.append((x, y, w, h))
+                bounding_rects.append([x, y, w, h])
 
     i = 0  
     Length = len(bounding_rects) 
@@ -98,7 +103,7 @@ def Split(img):
                 y = min(bounding_rects[i][1], bounding_rects[j][1])
                 h = max(bounding_rects[i][1] + bounding_rects[i][3], bounding_rects[j][1] + bounding_rects[j][3]) - y
 
-                bounding_rects[i] = (x, y, w, h)
+                bounding_rects[i] = [x, y, w, h]
                 del bounding_rects[j]
                 i = -1
                 Length -= 1
@@ -118,7 +123,12 @@ def Split(img):
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
         morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-    
+
+        for i in range(morph.shape[0]):
+            for j in range(morph.shape[1]):
+                if not morph[i][j]:
+                    morph[i][j] = 1
+        
         div = gray / morph
         gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
 
@@ -129,15 +139,7 @@ def Split(img):
 
         h_proj = np.sum(thresh, axis = 1)
 
-        starting = None
-        for i in range(h_proj.shape[0]):
-            proj = h_proj[i]
-            if proj != 0:
-                starting = i
-                break
-
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
         contours = np.vstack(contours)
 
         rect = cv2.minAreaRect(contours)
@@ -148,53 +150,6 @@ def Split(img):
         box = []
         box.extend(Box[index:])
         box.extend(Box[0:index])
-
-        x1 = (box[0][0] + box[1][0]) / 2
-        y1 = (box[0][1] + box[1][1]) / 2
-
-        x2 = (box[2][0] + box[3][0]) / 2
-        y2 = (box[2][1] + box[3][1]) / 2
-
-        a = y2 - y1
-        b = x1 - x2
-        c = (x2 * y1) - (y2 * x1)
-
-        cy = starting
-        cx = (-1) * ((b * cy) + c) / a
-
-        a1 = -b
-        b1 = a
-        c1 = (-1) * (a1 * cx + b1 * cy)
-
-        x1 = box[0][0]
-        y1 = box[0][1]
-
-        x2 = box[3][0]
-        y2 = box[3][1]
-
-        a2 = y2 - y1
-        b2 = x1 - x2
-        c2 = (x2 * y1) - (y2 * x1)
-
-        cx = ((c2 * b1) - (c1 * b2)) / ((a1 * b2) - (a2 * b1))
-        cy = ((c2 * a1) - (c1 * a2)) / ((b1 * a2) - (b2 * a1))
-
-        box[0] = [cx, cy]
-
-        x1 = box[1][0]
-        y1 = box[1][1]
-
-        x2 = box[2][0]
-        y2 = box[2][1]
-
-        a2 = y2 - y1
-        b2 = x1 - x2
-        c2 = (x2 * y1) - (y2 * x1)
-
-        cx = ((c2 * b1) - (c1 * b2)) / ((a1 * b2) - (a2 * b1))
-        cy = ((c2 * a1) - (c1 * a2)) / ((b1 * a2) - (b2 * a1))
-
-        box[1] = [cx, cy]
 
         box = np.int0(box)   
         shape = (box[1][0] - box[0][0], box[3][1] - box[0][1])

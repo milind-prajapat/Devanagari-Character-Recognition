@@ -4,11 +4,17 @@ import numpy as np
 
 def Split(Words):
     Word_Characters = []
+
     for Word in Words:
         gray = cv2.cvtColor(Word, cv2.COLOR_BGR2GRAY)
 
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
         morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
+
+        for i in range(morph.shape[0]):
+            for j in range(morph.shape[1]):
+                if not morph[i][j]:
+                    morph[i][j] = 1
     
         div = gray / morph
         gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
@@ -33,7 +39,7 @@ def Split(Words):
                 lower = i
                 break
 
-        if lower == None:
+        if lower == None or lower > int(h_proj.shape[0] / 2):
             lower = int(h_proj.shape[0] / 2)
 
         for row in range(lower + 3):
@@ -44,8 +50,11 @@ def Split(Words):
         bounding_rects = []
         for contour in contours:
             x, y, w, h = cv2.boundingRect(contour)
-            if w * h > 50:
-                bounding_rects.append((x, y, w, h))
+            if w * h > 25:
+                new_y = 0
+                new_h = min(Word.shape[0], h + y + 3)
+
+                bounding_rects.append([x, new_y, w, new_h])
         
         bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
 
@@ -81,12 +90,10 @@ def Split(Words):
 
         Characters = []
         for x, y, w, h in bounding_rects:
-            x1 = max(0, x - 3)  
-            w1 = min(Word.shape[1] - x, w + 6)
-            h1 = min(Word.shape[0], h + y + 6)
-            y1 = 0
-
-            crop = original_thresh[y1:y1 + h1, x1:x1 + w1]
+            new_x = max(0, x - 3)
+            new_w = min(Word.shape[1] - new_x, w + (x - new_x) + 3)
+            
+            crop = original_thresh[y:y + h, new_x:new_x + new_w]
             
             h_proj = np.sum(crop, axis = 1)
 
@@ -94,21 +101,19 @@ def Split(Words):
             for i in range(h_proj.shape[0]):
                 proj = h_proj[i]
                 if proj != 0:
-                    padding = y - i
+                    padding = i
                     break
+            
+            new_y = padding
+            new_h = min(Word.shape[0] - new_y, h + new_y + 3)
 
-            x = max(0, x - 3)
-            y = max(0, y - padding)
-            w = min(Word.shape[1] - x, w + 6)
-            h = min(Word.shape[0] - y, h + 3 + padding)
-
-            Character = np.zeros((max(w,h), max(w,h), 3), np.uint8)
+            Character = np.zeros((max(new_w, new_h), max(new_w, new_h), 3), np.uint8)
             Character.fill(255)
 
-            if w > h:
-                Character[int((w - h) / 2):int((w + h) / 2), :] = Word[y:y + h, x:x + w]
+            if new_w > new_h:
+                Character[int((new_w - new_h) / 2):int((new_w + new_h) / 2), :] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
             else:
-                Character[:, int((h - w) / 2):int((w + h) / 2)] = Word[y:y + h, x:x + w]
+                Character[:, int((new_h - new_w) / 2):int((new_w + new_h) / 2)] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
 
             Characters.append(Character.copy())
 
