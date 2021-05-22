@@ -1,5 +1,5 @@
 # Devanagari-Character-Recognition
-A project based on image processing and deep learning
+Devanagari character recognition using image processing and deep learning
 
 In this project, multiple Devanagari words( handwritten or typed), written in a paragraph, can be predicted through images. Fully connected CNN models and boosting are used for better results. 
 
