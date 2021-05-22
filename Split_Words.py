@@ -40,7 +40,7 @@ def Split(img):
     Length = len(contours)
     while i < Length:
         x, y, w, h = cv2.boundingRect(contours[i])
-        if w * h <= 200:
+        if w * h <= 100:
             del contours[i]
             i -= 1
             Length -= 1

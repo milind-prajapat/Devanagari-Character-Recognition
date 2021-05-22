@@ -17,8 +17,9 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               36: 'अ', 37: 'आ', 38: 'इ', 39: 'ई', 40: 'उ', 41: 'ऊ', 42: 'ऋ', 43: 'ए', 44: 'ऐ', 45: 'ओ', 46: 'औ', 47: 'अं', 48: 'अ:'}
 
 Path = "Words"
+Images = sorted(os.listdir(Path), key = lambda x: int(os.path.splitext(x)[0]))
 
-for Image_Name in os.listdir(Path):
+for Image_Name in Images:
     Words = Split_Words.Split(cv2.imread(os.path.join(Path, Image_Name)))
     Word_Characters = Split_Characters.Split(Words)
     Predictions = Predict_Characters.Predict(Word_Characters)

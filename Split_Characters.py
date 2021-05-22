@@ -38,11 +38,11 @@ def Split(Words):
             elif proj < Max and upper != None and lower == None:
                 lower = i
                 break
-
+        
         if lower == None or lower > int(h_proj.shape[0] / 2):
             lower = int(h_proj.shape[0] / 2)
 
-        for row in range(lower + 3):
+        for row in range(max(int(h_proj.shape[0] / 4), lower)):
             thresh[row] = 0
         
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)

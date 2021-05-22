@@ -29,14 +29,11 @@ def Predict(Word_Characters):
 
             _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY_INV)
 
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))
             thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
 
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))
             thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations = 1)
-
-            contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-            contours.sort(key = cv2.contourArea, reverse = True)
 
             thresh = cv2.resize(thresh, (32, 32), interpolation = cv2.INTER_AREA)
 
