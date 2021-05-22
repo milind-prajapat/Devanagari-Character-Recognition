@@ -1,5 +1,5 @@
 import warnings
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
 
 import os
 import cv2
@@ -16,7 +16,7 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
               30: 'ष', 31: 'स', 32: 'ह', 33: 'क्ष', 34: 'त्र', 35: 'ज्ञ',
               36: 'अ', 37: 'आ', 38: 'इ', 39: 'ई', 40: 'उ', 41: 'ऊ', 42: 'ऋ', 43: 'ए', 44: 'ऐ', 45: 'ओ', 46: 'औ', 47: 'अं', 48: 'अ:'}
 
-Path = "Words"
+Path = 'Words'
 Images = sorted(os.listdir(Path), key = lambda x: int(os.path.splitext(x)[0]))
 
 for Image_Name in Images:
@@ -25,8 +25,8 @@ for Image_Name in Images:
     Predictions = Predict_Characters.Predict(Word_Characters)
 
     for Prediction in Predictions:
-        Word = ""
+        Word = ''
         for class_id in Prediction:
             Word += Label_Dict[class_id]
-        print(Word, end = " ")
-    print("")
+        print(Word, end = ' ')
+    print('')

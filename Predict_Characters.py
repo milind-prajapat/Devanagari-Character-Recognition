@@ -6,15 +6,15 @@ import numpy as np
 from scipy import stats
 from keras.models import load_model
 
-Models = np.array([load_model(os.path.join(Path, 'best_val_loss.hdf5')) for Path in ["Model_1", "Model_2", "Model_3", "Model_4", "Model_5"]])
+Models = np.array([load_model(os.path.join(Path, 'best_val_loss.hdf5')) for Path in ['Model_1', 'Model_2', 'Model_3', 'Model_4', 'Model_5']])
 
 def Predict(Word_Characters):
     Predictions = []
 
     for Characters in Word_Characters:
         Prediction = []
-        for img in Characters:
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        for Character in Characters:
+            gray = cv2.cvtColor(Character, cv2.COLOR_BGR2GRAY)
 
             kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
             morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
