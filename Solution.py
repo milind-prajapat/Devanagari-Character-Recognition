@@ -1,6 +1,3 @@
-import warnings
-warnings.filterwarnings('ignore')
-
 import os
 import cv2
 import Split_Words
@@ -19,10 +16,10 @@ Label_Dict = {0: 'क', 1: 'ख', 2: 'ग', 3: 'घ', 4: 'ङ',
 Path = 'Words'
 Images = sorted(os.listdir(Path), key = lambda x: int(os.path.splitext(x)[0]))
 
-for Image_Name in Images:
+for Image_Name in Images[-1:]:
     Words = Split_Words.Split(cv2.imread(os.path.join(Path, Image_Name)))
-    Word_Characters = Split_Characters.Split(Words)
-    Predictions = Predict_Characters.Predict(Word_Characters)
+    Characters = Split_Characters.Split(Words)
+    Predictions = Predict_Characters.Predict(Characters)
 
     for Prediction in Predictions:
         Word = ''

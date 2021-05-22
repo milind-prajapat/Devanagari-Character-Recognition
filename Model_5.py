@@ -9,23 +9,23 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Fl
 trainDataGen = ImageDataGenerator(rotation_range = 5,
                                   width_shift_range = 0.1,
                                   height_shift_range = 0.1,
-                                  rescale = 1.0/255,
+                                  rescale = 1.0 / 255,
                                   shear_range = 0.2,
                                   zoom_range = 0.2,
                                   horizontal_flip = False,
                                   fill_mode = 'nearest')
 
-testDataGen = ImageDataGenerator(rescale = 1.0/255)
+testDataGen = ImageDataGenerator(rescale = 1.0 / 255)
 
 trainGenerator = trainDataGen.flow_from_directory(os.path.join('Splitted_Dataset', 'Train'),
-                                                  target_size = (32,32),
+                                                  target_size = (32, 32),
                                                   batch_size = 32,
                                                   color_mode = 'grayscale',
                                                   classes = [str(class_id) for class_id in range(49)],
                                                   class_mode = 'categorical')
 
 validationGenerator = testDataGen.flow_from_directory(os.path.join('Splitted_Dataset', 'Validation'),
-                                                      target_size = (32,32),
+                                                      target_size = (32, 32),
                                                       batch_size = 32,
                                                       color_mode = 'grayscale',
                                                       classes = [str(class_id) for class_id in range(49)],

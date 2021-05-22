@@ -17,7 +17,7 @@ for Class in range(len(df)):
     os.mkdir(os.path.join('Splitted_Dataset', 'Train', str(Class)))
     os.mkdir(os.path.join('Splitted_Dataset', 'Validation', str(Class)))
 
-for Class in tqdm(df.iloc[:,0]):
+for Class in tqdm(df.iloc[:,0], unit_scale = True, miniters = 1, desc = 'Splitting Dataset '):
     Files = os.listdir(os.path.join('Dataset', str(Class)))
     random.shuffle(Files)
 
