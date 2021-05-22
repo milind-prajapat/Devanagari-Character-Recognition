@@ -13,10 +13,10 @@ def Sorting_Key(rect):
         if not any([all([upper > y + h, lower > y + h]), all([upper < y, lower < y])]):
             return cx + ((i + 1) * Size)
 
-def Split(Words):
+def Split(Image):
     global Lines, Size
 
-    gray = cv2.cvtColor(Words, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(Image, cv2.COLOR_BGR2GRAY)
 
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (25, 25))
     morph = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
@@ -117,7 +117,7 @@ def Split(Words):
     Words = []
 
     for x, y, w, h in bounding_rects:
-        crop = Words[y:y + h, x:x+ w]
+        crop = Image[y:y + h, x:x+ w]
 
         gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
 
