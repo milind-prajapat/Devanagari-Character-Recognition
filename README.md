@@ -13,6 +13,15 @@ And then run Main.py file.
 * Character prediction is done using Boosting among the models. 
 * 5 CNN models have been trained and then voting among their result is done to get the most accurate result possible.
 
+## Models
+The models consist of convolutional layers, pooling layers, dense layers, normalization layers, and dropout layers. 
+One can differentiate among models based on the following parameters-
+1. filters in Conv2D layers
+2. Rate of dropout layer.
+3. The dimensionality of the output space in Dense layers.
+4. The number of Conv2D, BatchNormalization, MaxPooling, dense and dropout layers.
+ 
+
 ## References
 * [Dataset used to train the model](https://drive.google.com/file/d/1ne6XP-Js_JK3PnatCQSJW_hCWQ4JLWkB/view)
 * [Samples Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words)
