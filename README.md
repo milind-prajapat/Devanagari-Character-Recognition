@@ -15,7 +15,16 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 * [Split_Words.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Words.py) is used for performing word segmentation, helpful in achieving character recognition from a paragraph.
 * [Split_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Characters.py) is used for performing character segmentation, helpful in achieving character recognition from a word.
 * [Predict_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Predict_Characters.py) is used for taking the prediction of a character.
-* [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py), [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py), [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for splitting dataset, training models and evaluating their performance using boosting technique.
+* [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py), [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py), [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for splitting dataset, train models and to evaluate their performance using boosting technique.
+
+## Character Extraction
+Here shown woeds segmentation from an image.
+![ezgif-7-b6dcf9685904](https://user-images.githubusercontent.com/64096036/119255943-e50d0600-bbdb-11eb-8473-16986fded192.gif)
+
+Further, characters are segmented as shown.
+
+![ezgif-7-c210707f69b3](https://user-images.githubusercontent.com/64096036/119255956-ed654100-bbdb-11eb-88cf-caa7ac835b59.gif)
+
 
 ## Project Features
 1. **Word segmentation** enables character recognition of paragraphs
@@ -25,9 +34,9 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 5. **Boosting technique** resulting in more reliable efficiency
 
 ## Limitations
-1. *vyanjans* (consonants) having a *matra* (diacritic) cannot be predicted.
-2. Numerals are not included in the dataset and hence are not supported.
-3. Images with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) and slanted words might hinder efficiency.
+* One can not determine vyanjans(consonants) of devanagri script having a matra(diacritic) attached with them.
+* Devanagari digits can not be predicted.
+* Images with excess noise or tilted orientation might hinder efficiency.
 
 ## References
 * [Dataset](https://drive.google.com/file/d/1ne6XP-Js_JK3PnatCQSJW_hCWQ4JLWkB/view?usp=sharing)
