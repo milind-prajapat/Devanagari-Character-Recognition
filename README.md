@@ -1,5 +1,5 @@
 # Devanagari-Character-Recognition
-Devanagari character recognition using image processing and deep learning
+Devanagari Character Recognition Using Image Processing And Deep Learning
 
 This work allows optical character recognition of Devanagari script, handwritten or printed, written in a paragraph or a line. Image processing techniques enable word and character segmentation, i.e., splitting words from a paragraph, separating characters from words. The segmented characters are then recognized using a convolutional neural network combined with a deep neural network.
 
