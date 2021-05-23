@@ -20,7 +20,8 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 ## Character Extraction
 **Gif 1.** Word Segmentation 
 
-![ezgif-7-b6dcf9685904](https://user-images.githubusercontent.com/64096036/119255943-e50d0600-bbdb-11eb-8473-16986fded192.gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/64096036/119259092-2efce880-bbea-11eb-942d-b77ed8810993.gif)
+
 
 **Gif 2.** Character Segmentation
 
