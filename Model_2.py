@@ -49,7 +49,7 @@ model.add(Flatten())
 model.add(Dense(256, activation = 'relu', kernel_initializer = 'he_uniform'))
 model.add(Dropout(0.5))
 
-model.add(Dense(49, activation='softmax'))
+model.add(Dense(49, activation = 'softmax'))
 
 model.compile(optimizer = Adam(lr = 1e-3, decay = 1e-5), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
