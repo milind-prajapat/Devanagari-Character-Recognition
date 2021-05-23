@@ -7,14 +7,14 @@ from scipy import stats
 from sklearn.metrics import accuracy_score
 from keras.models import load_model
 
-df = pd.read_csv(os.path.join('Splitted_Dataset', 'Reference.csv'))
+df = pd.read_csv(os.path.join('Split_Dataset', 'Reference.csv'))
 
 x_validation = []
 y_validation = []
 
 for class_id in df.loc[:, 'class id']:
-    for Image_Name in os.listdir(os.path.join('Splitted_Dataset', 'Validation', str(class_id))):
-        x_validation.append(cv2.imread(os.path.join('Splitted_Dataset', 'Validation', str(class_id), Image_Name), 0))
+    for Image_Name in os.listdir(os.path.join('Split_Dataset', 'Validation', str(class_id))):
+        x_validation.append(cv2.imread(os.path.join('Split_Dataset', 'Validation', str(class_id), Image_Name), 0))
         y_validation.append(class_id)
 
 x_validation = np.array(x_validation).reshape(-1, 32, 32, 1) / 255.0
