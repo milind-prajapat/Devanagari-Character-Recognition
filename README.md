@@ -25,9 +25,9 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 5. **Boosting technique** resulting in more reliable efficiency
 
 ## Limitations
-* One can not determine vyanjans(consonants) of devanagri script having a matra(diacritic) attached with them.
-* Devanagari digits can not be predicted.
-* Images with excess noise or tilted orientation might hinder efficiency.
+1. *vyanjans* (consonants) having a *matra* (diacritic) cannot be predicted.
+2. Numerals are not included in the dataset and hence are not supported.
+3. Images with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) and slanted words might hinder efficiency.
 
 ## References
 * [Dataset](https://drive.google.com/file/d/1ne6XP-Js_JK3PnatCQSJW_hCWQ4JLWkB/view?usp=sharing)
