@@ -34,8 +34,8 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 5. **Boosting technique** resulting in more reliable efficiency
 
 ## Limitations
-1. *vyanjans* (consonants) having a *matra* (diacritic) cannot be predicted.
-2. Numerals are not included in the dataset and hence are not supported.
+1. *vyanjans* having a *matra* cannot be segmented.
+2. Numerals and *matra* are not included in the dataset and hence are not supported.
 3. Words with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) or highly slanted words might hinder efficiency.
 
 ## References
