@@ -3,7 +3,7 @@ Devanagari character recognition using image processing and deep learning
 
 This work allows optical character recognition of Devanagari script, handwritten or printed, written in a paragraph or a line. Image processing techniques enable word and character segmentation, i.e., splitting words from a section, separating characters from words. The segmented characters are then detected using a convolutional neural network combined with a deep neural network.
 
-We have also used boosting technique over the neural network for achieving more remarkable outcomes. We trained five neural networks with different number and type of layers, filters and pool size in the convolutional layer, dropout rate and the number of neurons in the dense layer. Then, while performing recognition, each neural network is first used for prediction separately, and then a vote is taken. One which occurred more frequently is chosen as the final prediction, resulting in better precision.
+We have also used boosting technique over the neural network for achieving more remarkable outcomes. We trained five neural networks with different number and type of layers, filters and pool size in the convolutional layer, dropout rate and the number of neurons in the dense layer. Then, while performing recognition, each neural network is first used for prediction separately, and then voting among them is performed. One which occurred more frequently is chosen as the final prediction, resulting in better precision.
 
 Sample images used for character recognition can be found in [Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words) directory of the repository.
 
@@ -23,6 +23,11 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 3. **Data augmentation** using image data generator class
 4. **Convolution neural network**
 5. **Boosting technique** resulting in more reliable efficiency
+
+## Limitations
+* One can not determine vyanjans(consonants) of devanagri script having a matra(diacritic) attached with them.
+* Devanagari digits can not be predicted.
+* Images with excess noise or tilted orientation might hinder efficiency.
 
 ## References
 * [Dataset](https://drive.google.com/file/d/1ne6XP-Js_JK3PnatCQSJW_hCWQ4JLWkB/view?usp=sharing)
