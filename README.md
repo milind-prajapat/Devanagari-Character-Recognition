@@ -18,25 +18,25 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 * [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py), [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py), [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for splitting dataset, train models and to evaluate their performance using boosting technique.
 
 ## Character Extraction
-Here shown woeds segmentation from an image.
+**Gif 1.** Word Segmentation 
+
 ![ezgif-7-b6dcf9685904](https://user-images.githubusercontent.com/64096036/119255943-e50d0600-bbdb-11eb-8473-16986fded192.gif)
 
-Further, characters are segmented as shown.
+**Gif 2.** Character Segmentation
 
 ![ezgif-7-c210707f69b3](https://user-images.githubusercontent.com/64096036/119255956-ed654100-bbdb-11eb-88cf-caa7ac835b59.gif)
 
-
 ## Project Features
-1. **Word segmentation** enables character recognition of paragraphs
+1. **Word segmentation** enables character recognition of paragraphs, it also preserves the order
 2. **Character segmentation** enables character recognition of word
 3. **Data augmentation** using image data generator class
 4. **Convolution neural network**
 5. **Boosting technique** resulting in more reliable efficiency
 
 ## Limitations
-* One can not determine vyanjans(consonants) of devanagri script having a matra(diacritic) attached with them.
-* Devanagari digits can not be predicted.
-* Images with excess noise or tilted orientation might hinder efficiency.
+1. *vyanjans* (consonants) having a *matra* (diacritic) cannot be predicted.
+2. Numerals are not included in the dataset and hence are not supported.
+3. Words with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) or highly slanted words might hinder efficiency.
 
 ## References
 * [Dataset](https://drive.google.com/file/d/1ne6XP-Js_JK3PnatCQSJW_hCWQ4JLWkB/view?usp=sharing)
