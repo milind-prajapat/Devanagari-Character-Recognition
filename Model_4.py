@@ -1,4 +1,6 @@
 import os
+
+from sklearn.metrics import classification_report
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
@@ -17,14 +19,14 @@ trainDataGen = ImageDataGenerator(rotation_range = 5,
 
 testDataGen = ImageDataGenerator(rescale = 1.0 / 255)
 
-trainGenerator = trainDataGen.flow_from_directory(os.path.join('Split_Dataset', 'Train'),
+trainGenerator = trainDataGen.flow_from_directory(os.path.join('Split Dataset', 'Train'),
                                                   target_size = (32, 32),
                                                   batch_size = 32,
                                                   color_mode = 'grayscale',
                                                   classes = [str(Class) for Class in range(49)],
                                                   class_mode = 'categorical')
 
-validationGenerator = testDataGen.flow_from_directory(os.path.join('Split_Dataset', 'Validation'),
+validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Dataset', 'Validation'),
                                                       target_size = (32, 32),
                                                       batch_size = 32,
                                                       color_mode = 'grayscale',

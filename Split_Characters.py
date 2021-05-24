@@ -3,7 +3,7 @@ import copy
 import numpy as np
 
 def Split(Words):
-    Word_Characters = []
+    Characters = []
 
     for Word in Words:
         gray = cv2.cvtColor(Word, cv2.COLOR_BGR2GRAY)
@@ -90,7 +90,7 @@ def Split(Words):
 
             index += 1
 
-        Characters = []
+        Word_Characters = []
         for x, y, w, h in bounding_rects:
             new_x = max(0, x - 3)
             new_w = min(Word.shape[1] - new_x, w + (x - new_x) + 3)
@@ -115,8 +115,8 @@ def Split(Words):
             Character.fill(255)
 
             Character[int((size - new_h) / 2):int((size + new_h) / 2), int((size - new_w) / 2):int((size + new_w) / 2)] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
-            Characters.append(Character.copy())
+            Word_Characters.append(Character.copy())
 
-        Word_Characters.append(copy.deepcopy(Characters))
+        Characters.append(copy.deepcopy(Characters))
 
-    return Word_Characters
+    return Characters
