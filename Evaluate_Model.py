@@ -10,6 +10,35 @@ import Predict_Characters
 from scipy import stats
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+df = pd.read_csv(os.path.join('Split Dataset', 'Reference.csv'))
+
+x_validation = []
+y_validation = []
+
+for Class in df.loc[:, 'Class']:
+    for Image_Name in os.listdir(os.path.join('Split Dataset', 'Validation', str(Class))):
+        x_validation.append(cv2.imread(os.path.join('Split Dataset', 'Validation', str(Class), Image_Name), 0))
+        y_validation.append(Class)
+
+x_validation = np.array(x_validation).reshape(-1, 32, 32, 1) / 255.0
+Predictions = [np.argmax(Model.predict(x_validation), axis = 1) for Model in Predict_Characters.Models]
+
+Dict = {}
+for Model_Number, Prediction in enumerate(Predictions):
+    Dict[f'Model_{Model_Number}'] = [accuracy_score(y_validation, Prediction), 
+                                     precision_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
+                                     recall_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
+                                     f1_score(y_validation, Prediction, average = 'weighted', zero_division = 0)]
+
+Prediction = stats.mode(Predictions)[0][0]
+Dict['Boosting'] = [accuracy_score(y_validation, Prediction),
+                    precision_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
+                    recall_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
+                    f1_score(y_validation, Prediction, average = 'weighted', zero_division = 0)]
+
+Validation_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(3)
+print(Validation_Report)
+
 Expected_Outcomes = [[['क', 'ल', 'म'], ['प', 'त', 'ल'], ['र', 'व', 'न']],
                      [['क', 'म', 'ल'], ['फ', 'स', 'ल'], ['म', 'ह', 'ल'], ['च', 'म', 'क'], ['ल', 'प', 'क'], ['प', 'ट', 'क'], ['न', 'ह', 'र'], ['प', 'ह', 'र'], ['ल', 'ह', 'र']],
                      [['आ', 'म'], ['ग', 'म'], ['औ', 'र'], ['अं', 'म'], ['अ:', 'म']],
@@ -36,7 +65,7 @@ for Image_Name in Images:
 y_test = [Predict_Characters.Label_Dict[Character] for Image in Expected_Outcomes for Word in Image for Character in Word]
 Predictions = np.array([Character for Image in Predictions for Word in Image for Character in Word]).T.tolist()
 
-Dict = []
+Dict = {}
 for Model_Number, Prediction in enumerate(Predictions):
     Dict[f'Model_{Model_Number}'] = [accuracy_score(y_test, Prediction), 
                                      precision_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
@@ -49,5 +78,5 @@ Dict['Boosting'] = [accuracy_score(y_test, Prediction),
                     recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
                     f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)]
 
-Classification_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(3)
-print(Classification_Report)
+Test_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(3)
+print(Test_Report)
