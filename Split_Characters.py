@@ -110,14 +110,11 @@ def Split(Words):
             new_y = padding
             new_h = min(Word.shape[0] - new_y, h + new_y + 3)
 
-            Character = np.zeros((max(new_w, new_h), max(new_w, new_h), 3), np.uint8)
+            size = max(new_w, new_h)
+            Character = np.zeros((size, size, 3), np.uint8)
             Character.fill(255)
 
-            if new_w > new_h:
-                Character[int((new_w - new_h) / 2):int((new_w + new_h) / 2), :] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
-            else:
-                Character[:, int((new_h - new_w) / 2):int((new_w + new_h) / 2)] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
-
+            Character[int((size - new_h) / 2):int((size + new_h) / 2), int((size - new_w) / 2):int((size + new_w) / 2)] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
             Characters.append(Character.copy())
 
         Word_Characters.append(copy.deepcopy(Characters))
