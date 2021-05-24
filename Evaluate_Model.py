@@ -72,15 +72,15 @@ Predictions = np.array([np.argmax(model.predict(x_test), axis = 1) for model in 
 Classification_Report = []
 for Prediction in Predictions:
     Classification_Report.append([accuracy_score(y_test, Prediction), 
-                                  precision_score(y_test, Prediction, average = 'weighted'), 
-                                  recall_score(y_test, Prediction, average = 'weighted'), 
-                                  f1_score(y_test, Prediction, average = 'weighted')])
+                                  precision_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                                  recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                                  f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)])
 
 Prediction = stats.mode(Predictions)[0][0]
 Classification_Report.append([accuracy_score(y_test, Prediction), 
-                              precision_score(y_test, Prediction, average = 'weighted'), 
-                              recall_score(y_test, Prediction, average = 'weighted'), 
-                              f1_score(y_test, Prediction, average = 'weighted')])
+                              precision_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                              recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                              f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)])
 
 print(pd.DataFrame(Classification_Report, index = ['Model_1', 'Model_2', 'Model_3', 'Model_4', 'Model_5', 'Boosting'], columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']))
 
@@ -89,14 +89,14 @@ Predictions = np.array([np.argmax(model.predict(x_test), axis = 1) for model in 
 Classification_Report = []
 for Prediction in Predictions:
     Classification_Report.append([accuracy_score(y_test, Prediction), 
-                                  precision_score(y_test, Prediction, average = 'weighted'), 
-                                  recall_score(y_test, Prediction, average = 'weighted'), 
-                                  f1_score(y_test, Prediction, average = 'weighted')])
+                                  precision_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                                  recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                                  f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)])
 
 Prediction = stats.mode(Predictions)[0][0]
 Classification_Report.append([accuracy_score(y_test, Prediction), 
-                              precision_score(y_test, Prediction, average = 'weighted'), 
-                              recall_score(y_test, Prediction, average = 'weighted'), 
-                              f1_score(y_test, Prediction, average = 'weighted')])
+                              precision_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                              recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
+                              f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)])
 
 print(pd.DataFrame(Classification_Report, index = ['Model_1', 'Model_2', 'Model_3', 'Model_4', 'Model_5', 'Boosting'], columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']))
