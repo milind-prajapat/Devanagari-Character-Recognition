@@ -1,5 +1,6 @@
 import os
 import cv2
+
 import Split_Words
 import Split_Characters
 import Predict_Characters
@@ -18,12 +19,12 @@ Images = sorted(os.listdir(Path), key = lambda x: int(os.path.splitext(x)[0]))
 
 for Image_Name in Images:
     Words = Split_Words.Split(cv2.imread(os.path.join(Path, Image_Name)))
-    Characters = Split_Characters.Split(Words)
-    Predictions = Predict_Characters.Predict(Characters)
+    Word_Characters = Split_Characters.Split(Words)
+    Predictions = Predict_Characters.Predict(Word_Characters)
 
     for Prediction in Predictions:
         Word = ''
-        for class_id in Prediction:
-            Word += Label_Dict[class_id]
+        for Class in Prediction:
+            Word += Label_Dict[Class]
         print(Word, end = ' ')
     print('')

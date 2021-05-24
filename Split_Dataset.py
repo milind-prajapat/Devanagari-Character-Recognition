@@ -4,6 +4,8 @@ import random
 import pandas as pd
 from tqdm import tqdm
 
+## random.seed() # Change For Training Different Models
+
 df = pd.read_csv(os.path.join('Dataset', 'Reference.csv'))
 
 if os.path.isdir('Split_Dataset'):
@@ -13,7 +15,7 @@ os.mkdir('Split_Dataset')
 os.mkdir(os.path.join('Split_Dataset', 'Train'))
 os.mkdir(os.path.join('Split_Dataset', 'Validation'))
 
-for Class in range(len(df)):
+for Class in df['Class']:
     os.mkdir(os.path.join('Split_Dataset', 'Train', str(Class)))
     os.mkdir(os.path.join('Split_Dataset', 'Validation', str(Class)))
 

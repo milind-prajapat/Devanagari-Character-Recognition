@@ -13,6 +13,7 @@ def Predict(Word_Characters):
 
     for Characters in Word_Characters:
         Prediction = []
+
         for Character in Characters:
             gray = cv2.cvtColor(Character, cv2.COLOR_BGR2GRAY)
 
@@ -28,7 +29,6 @@ def Predict(Word_Characters):
             gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
 
             _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY_INV)
-
             thresh = cv2.resize(thresh, (32, 32), interpolation = cv2.INTER_AREA)
 
             x = np.array([thresh]).reshape(-1, 32, 32, 1) / 255.0

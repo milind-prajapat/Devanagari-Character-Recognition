@@ -33,6 +33,7 @@ def Split(Words):
         lower = None
         for i in range(h_proj.shape[0]):
             proj = h_proj[i]
+            
             if proj > Max and upper == None:
                 upper = i
             elif proj < Max and upper != None and lower == None:
@@ -50,6 +51,7 @@ def Split(Words):
         bounding_rects = []
         for contour in contours:
             x, y, w, h = cv2.boundingRect(contour)
+            
             if w * h > 25:
                 new_y = 0
                 new_h = min(Word.shape[0], h + y + 3)
@@ -100,6 +102,7 @@ def Split(Words):
             padding = None
             for i in range(h_proj.shape[0]):
                 proj = h_proj[i]
+                
                 if proj != 0:
                     padding = i
                     break

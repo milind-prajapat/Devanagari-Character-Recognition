@@ -21,14 +21,14 @@ trainGenerator = trainDataGen.flow_from_directory(os.path.join('Split_Dataset', 
                                                   target_size = (32, 32),
                                                   batch_size = 32,
                                                   color_mode = 'grayscale',
-                                                  classes = [str(class_id) for class_id in range(49)],
+                                                  classes = [str(Class) for Class in range(49)],
                                                   class_mode = 'categorical')
 
 validationGenerator = testDataGen.flow_from_directory(os.path.join('Split_Dataset', 'Validation'),
                                                       target_size = (32, 32),
                                                       batch_size = 32,
                                                       color_mode = 'grayscale',
-                                                      classes = [str(class_id) for class_id in range(49)],
+                                                      classes = [str(Class) for Class in range(49)],
                                                       class_mode = 'categorical')
 
 model = Sequential()

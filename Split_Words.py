@@ -40,6 +40,7 @@ def Split(Image):
     Length = len(contours)
     while i < Length:
         x, y, w, h = cv2.boundingRect(contours[i])
+
         if w * h <= 100:
             del contours[i]
             i -= 1
@@ -53,6 +54,7 @@ def Split(Image):
     Lines = []
     for i in range(h_proj.shape[0]):
         proj = h_proj[i]
+
         if proj != 0 and upper == None:
             upper = i
         elif proj == 0 and upper != None and lower == None:
@@ -80,6 +82,7 @@ def Split(Image):
     while i < Length:
         x, y, w, h = bounding_rects[i]
         j = 0
+
         while j < Length:
             distancex = abs(bounding_rects[j][0] - (bounding_rects[i][0] + bounding_rects[i][2]))
             distancey = abs(bounding_rects[j][1] - (bounding_rects[i][1] + bounding_rects[i][3]))
@@ -115,7 +118,6 @@ def Split(Image):
     bounding_rects.sort(key = Sorting_Key)
 
     Words = []
-
     for x, y, w, h in bounding_rects:
         crop = Image[y:y + h, x:x+ w]
 
@@ -133,11 +135,6 @@ def Split(Image):
         gray = np.array(cv2.normalize(div, div, 0, 255, cv2.NORM_MINMAX), np.uint8)
 
         _, thresh = cv2.threshold(gray, 180, 255, cv2.THRESH_BINARY_INV)
-
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations = 1)
-
-        h_proj = np.sum(thresh, axis = 1)
 
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         contours = np.vstack(contours)
