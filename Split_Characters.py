@@ -52,14 +52,14 @@ def Split(Words):
         for contour in contours:
             x, y, w, h = cv2.boundingRect(contour)
             
-            if w * h > 25:
+            if w * h > 25 and h > 5:
                 new_y = 0
                 new_h = min(Word.shape[0], h + y + 3)
 
                 bounding_rects.append([x, new_y, w, new_h])
         
         bounding_rects.sort(key = lambda x: x[0] + int(x[2] / 2))
-
+        
         index = 0
         Length = len(bounding_rects)  
         while index < (Length - 1):
