@@ -41,4 +41,4 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 3. Words with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) or highly slanted words might hinder efficiency
 
 ## References
-* [Handwritten Devanagari Characters](https://drive.google.com/file/d/1ne6XP-Js_JK3PnatCQSJW_hCWQ4JLWkB/view?usp=sharing)
+* [Handwritten Devanagari Characters](https://drive.google.com/file/d/1kVn8-Cf1RnnePqfxpCnLSt1rxm2eSfh4/view?usp=sharing)
