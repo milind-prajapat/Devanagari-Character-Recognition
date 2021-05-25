@@ -62,7 +62,7 @@ for Image_Name in Images:
     Characters = Split_Characters.Split(Words)
     Predictions.append(Predict_Characters.Predict(Characters))
     
-y_test = [Predict_Characters.Label_Dict[Character] for Image in Expected_Outcomes for Word in Image for Character in Word]
+y_test = [Predict_Characters.Reversed_Label_Dict[Character] for Image in Expected_Outcomes for Word in Image for Character in Word]
 Predictions = np.array([Character for Image in Predictions for Word in Image for Character in Word]).T.tolist()
 
 Dict = {}

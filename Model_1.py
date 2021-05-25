@@ -34,24 +34,21 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 model = Sequential()
 
 model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu', input_shape = (32, 32, 1)))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu'))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
-model.add(Dropout(0.25))
 
 model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Flatten())
+
 model.add(Dense(256, activation = 'relu', kernel_initializer = 'he_uniform'))
-model.add(Dropout(0.55))
+model.add(Dropout(0.2))
 
 model.add(Dense(100, activation = 'relu', kernel_initializer = 'he_uniform'))
-model.add(Dropout(0.35))
+model.add(Dropout(0.1))
 
 model.add(Dense(49, activation = 'softmax'))
 
@@ -62,7 +59,7 @@ if not os.path.isdir('Model_1'):
 
 callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
                               patience = 7, min_lr = 1e-5),
-             EarlyStopping(patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
+             EarlyStopping(monitor = 'val_loss', patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
                           min_delta = 1e-5),
              CSVLogger(os.path.join('Model_1', 'training.log'), append = True),
              ModelCheckpoint(os.path.join('Model_1', 'backup_last_model.hdf5')),

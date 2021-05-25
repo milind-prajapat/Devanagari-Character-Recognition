@@ -33,32 +33,31 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 
 model = Sequential()
 
-model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
-model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform'))
-model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform'))
+model.add(Conv2D(32, (5, 5), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
+model.add(Conv2D(32, (5, 5), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform'))
+model.add(Conv2D(32, (5, 5), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2)))
-model.add(Dropout(0.25))
 
-model.add(Conv2D(64, (3, 3), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform'))
-model.add(Conv2D(64, (3, 3), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform'))
-model.add(Conv2D(64, (3, 3), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform'))
+model.add(Conv2D(64, (3, 3), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform'))
+model.add(Conv2D(64, (3, 3), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform'))
+model.add(Conv2D(64, (3, 3), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2)))
-model.add(Dropout(0.25))
 
 model.add(Flatten())
+
 model.add(Dense(256, activation = 'relu', kernel_initializer = 'he_uniform'))
-model.add(Dropout(0.5))
+model.add(Dropout(0.2))
 
 model.add(Dense(49, activation = 'softmax'))
 
-model.compile(optimizer = Adam(lr = 1e-3, decay = 1e-5), loss = 'categorical_crossentropy', metrics = ['accuracy'])
+model.compile(optimizer = Adam(learning_rate = 1e-3, decay = 1e-5), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
 if not os.path.isdir('Model_2'):
     os.mkdir('Model_2')
 
 callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
                               patience = 7, min_lr = 1e-5),
-             EarlyStopping(patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
+             EarlyStopping(monitor = 'val_loss', patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
                           min_delta = 1e-5),
              CSVLogger(os.path.join('Model_2', 'training.log'), append = True),
              ModelCheckpoint(os.path.join('Model_2', 'backup_last_model.hdf5')),
