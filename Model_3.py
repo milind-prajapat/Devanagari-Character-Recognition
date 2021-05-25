@@ -33,16 +33,12 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 
 model = Sequential()
 
-model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu', input_shape = (32, 32, 1)))
-model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
-
-model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu'))
-model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
-
+model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu', input_shape = (32, 32, 1)))
 model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
-model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
+model.add(Conv2D(128, (3, 3), strides = 1, activation = 'relu'))
+model.add(Conv2D(128, (3, 3), strides = 1, activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Flatten())
