@@ -1,9 +1,9 @@
 # Devanagari-Character-Recognition
 Devanagari Character Recognition Using Image Processing And Deep Learning
 
-This work allows optical character recognition of Devanagari script, handwritten or printed, written in a paragraph or a line. Image processing techniques enable word and character segmentation, i.e., splitting words from a paragraph, and separating characters from words. The segmented characters are then recognized using a convolutional neural network combined with a deep neural network.
+This work allows optical character recognition of the Devanagari script, handwritten or printed, written in a paragraph or a line. Image processing techniques enable word and character segmentation, i.e., splitting words from paragraphs and separating characters from words. The segmented characters are then recognized using a convolutional neural network combined with a deep neural network.
 
-We have also used boosting technique over the neural network for achieving more significant outcomes. We trained five neural networks with different number and type of layers, filters and pool size in the convolutional layer, dropout rate and the number of neurons in the dense layer. Then, while performing recognition, each neural network is first used for prediction separately, and then voting among them is performed. The one which occurred more frequently is chosen as the final prediction, resulting in better precision.
+We have also used boosting technique over the neural network for achieving more significant outcomes. We trained five neural networks with different number and type of layers, filters and pool size in the convolutional layer, dropout rate and the number of neurons in the dense layer. Then, while performing recognition, each neural network is first used for prediction separately, and then voting among them is done. The one which occurred more frequently is chosen as the final prediction, resulting in better precision.
 
 Sample images used for character recognition can be found in [Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words) directory of the repository.
 
@@ -13,9 +13,9 @@ To perform character recognition, accumulate the images in a directory and then 
 You can then either run the code directly on visual studio using [Devanagari-Character-Recognition.sln](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Devanagari-Character-Recognition.sln) or can run [Main.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Main.py).
 
 ## Structure
-* [Split_Words.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Words.py) is used for performing word segmentation, helpful in achieving character recognition from a paragraph
-* [Split_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Characters.py) is used for performing character segmentation, helpful in achieving character recognition from a word
-* [Predict_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Predict_Characters.py) is used for taking the prediction of a character using boosting technique
+* [Split_Words.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Words.py) is used for performing word segmentation, helpful in achieving character recognition of paragraphs
+* [Split_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Characters.py) is used for performing character segmentation, helpful in achieving character recognition of a word
+* [Predict_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Predict_Characters.py) is used for taking the prediction of a character using the boosting technique
 * [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py), [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py), [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for splitting dataset, training models and evaluating their performance respectively
 
 ## Character Extraction
@@ -52,8 +52,8 @@ Model_5      |     0.8095     |      0.9200    |    0.8095  |  0.8386
 Boosting     |     0.8571      |     0.9444    |    0.8571  |  0.8862
 
 ## Features
-1. **Word segmentation** enables character recognition from paragraphs, preserving the order of the words
-2. **Character segmentation** enables character recognition from a word
+1. **Word segmentation** enables character recognition of paragraphs, preserving the order of the words
+2. **Character segmentation** enables character recognition of a word
 3. **Image Processing** enables the segmentation of slanted words and characters, and *svar* having a *matra*
 4. **Data augmentation** using image data generator class, rotated, shifted, sheared and zoomed
 5. **Convolution neural network** combined with a deep neural network
