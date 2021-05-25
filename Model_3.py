@@ -33,20 +33,20 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 
 model = Sequential()
 
-model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu', input_shape = (32, 32, 1)))
-model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
+model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu', input_shape = (32, 32, 1)))
+model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
-model.add(Conv2D(128, (3, 3), strides = 1, activation = 'relu'))
-model.add(Conv2D(128, (3, 3), strides = 1, activation = 'relu'))
+model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
+model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Flatten())
 
-model.add(Dense(128, activation = 'relu', kernel_initializer = 'uniform'))
+model.add(Dense(128, activation = 'relu', kernel_initializer = 'he_uniform'))
 model.add(Dropout(0.1))
 
-model.add(Dense(49, activation = 'softmax', kernel_initializer = 'uniform'))
+model.add(Dense(49, activation = 'softmax'))
 
 model.compile(optimizer = Adam(learning_rate = 1e-3, decay = 1e-5), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
