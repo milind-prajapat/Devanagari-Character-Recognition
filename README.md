@@ -16,7 +16,9 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 * [Split_Words.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Words.py) is used for performing word segmentation, helpful in achieving character recognition of paragraphs
 * [Split_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Characters.py) is used for performing character segmentation, helpful in achieving character recognition of a word
 * [Predict_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Predict_Characters.py) is used for taking the prediction of a character using the boosting technique
-* [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py), [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py), [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for splitting dataset, training models and evaluating their performance respectively
+* [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py) is used for splitting dataset into training and validation sets
+* [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py) are used for training different convolution neural networks
+* [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for evaluating and comparing the performance of different convolution neural networks
 
 ## Character Extraction
 **Gif 01.** Word Segmentation 
@@ -40,7 +42,7 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 | Model_5    |       0.9836    |       0.9838    |    0.9836  |  0.9836 |
 | Boosting   |       0.9932    |       0.9933    |    0.9932  |  0.9932 |
 
-**Table 02.** Classification Report on Test Data
+**Table 02.** Classification Report on [Sample Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words)
 
 |  | accuracy_score | precision_score | recall_score | f1_score|
 | --- | :---: | :---: | :---: | ---: |
