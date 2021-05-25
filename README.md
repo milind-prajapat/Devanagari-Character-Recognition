@@ -12,7 +12,7 @@ To perform character recognition, accumulate the images in a directory and then 
 
 You can then either run the code directly on visual studio using [Devanagari-Character-Recognition.sln](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Devanagari-Character-Recognition.sln) or can run [Main.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Main.py).
 
-## Project Structure
+## Structure
 * [Split_Words.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Words.py) is used for performing word segmentation, helpful in achieving character recognition from a paragraph
 * [Split_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Characters.py) is used for performing character segmentation, helpful in achieving character recognition from a word
 * [Predict_Characters.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Predict_Characters.py) is used for taking the prediction of a character using boosting technique
@@ -28,7 +28,7 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 
 ![ezgif-7-c210707f69b3](https://user-images.githubusercontent.com/64096036/119255956-ed654100-bbdb-11eb-88cf-caa7ac835b59.gif)
 
-## Project Features
+## Features
 1. **Word segmentation** enables character recognition of paragraphs, it also preserves the order
 2. **Character segmentation** enables character recognition of word
 3. **Data augmentation** using image data generator class
