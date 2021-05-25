@@ -33,34 +33,27 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 
 model = Sequential()
 
-model.add(Conv2D(32, (5, 5), padding = 'Same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
-model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu'))
-model.add(BatchNormalization())
-
-model.add(Conv2D(32, (3, 3), activation = 'relu', padding = 'valid'))
+model.add(Conv2D(32, (5, 5), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
 model.add(Conv2D(64, (3, 3), activation = 'relu', strides = (1, 1), padding = 'valid'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
-model.add(BatchNormalization())
 
-model.add(Conv2D(80, (3, 3), activation = 'relu', padding = 'valid'))
-model.add(Conv2D(80, (2, 2), activation = 'relu', strides = (1, 1), padding = 'valid'))
+model.add(Conv2D(64, (3, 3), activation = 'relu',strides = (1, 1), padding = 'valid'))
 model.add(BatchNormalization())
 
 model.add(Conv2D(64, (3, 3), activation = 'relu', padding = 'valid'))
-model.add(Conv2D(64, (3, 3), activation = 'relu', padding = 'valid'))
-model.add(BatchNormalization())
+model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
-model.add(Conv2D(64, (3, 3), activation = 'relu', strides = (1, 1)))
+model.add(Conv2D(64, (3, 3), activation = 'relu', padding = 'valid'))
 model.add(Conv2D(64, (3, 3), activation = 'relu', strides = (1, 1)))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
-model.add(BatchNormalization())
 
 model.add(Flatten())
-model.add(Dense(200, activation = 'relu'))
+
+model.add(Dense(256, activation = 'relu'))
 model.add(Dropout(0.3))
 
-model.add(Dense(100, activation = 'relu'))
-model.add(Dropout(0.2))
+model.add(Dense(128, activation = 'relu'))
+model.add(Dropout(0.25))
 
 model.add(Dense(49, activation = 'softmax'))
 
