@@ -19,18 +19,17 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 * [Split_Dataset.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Dataset.py), [Model_1.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_1.py), [Model_2.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_2.py), [Model_3.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_3.py), [Model_4.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_4.py), [Model_5.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Model_5.py), [Evaluate_Model.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Evaluate_Model.py) is used for splitting dataset, training models and evaluating their performance using boosting technique
 
 ## Character Extraction
-**Gif 1.** Word Segmentation 
+**Gif 01.** Word Segmentation 
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/64096036/119259092-2efce880-bbea-11eb-942d-b77ed8810993.gif)
 
-
-**Gif 2.** Character Segmentation
+**Gif 02.** Character Segmentation
 
 ![ezgif-7-c210707f69b3](https://user-images.githubusercontent.com/64096036/119255956-ed654100-bbdb-11eb-88cf-caa7ac835b59.gif)
 
 ## Model Performance
 
-**Classification Report on Validation Data:** 
+**Table 01.** Classification Report on Validation Data 
 
 |  | accuracy_score | precision_score | recall_score | f1_score|
 | --- | :---: | :---: | :---: | ---: |
@@ -41,7 +40,7 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 | Model_5    |       0.9836    |       0.9838    |    0.9836  |  0.9836 |
 | Boosting   |       0.9932    |       0.9933    |    0.9932  |  0.9932 |
 
-**Classification Report on Test Data:**
+**Table 02.** Classification Report on Test Data
 
 |  | accuracy_score | precision_score | recall_score | f1_score|
 | --- | :---: | :---: | :---: | ---: |
@@ -52,13 +51,13 @@ Model_4      |     0.7857     |      0.8175    |    0.7857  |  0.7895
 Model_5      |     0.8095     |      0.9200    |    0.8095  |  0.8386
 Boosting     |     0.8571      |     0.9444    |    0.8571  |  0.8862
 
-
 ## Features
-1. **Word segmentation** enables character recognition of paragraphs, it also preserves the order
+1. **Word segmentation** enables character recognition of paragraphs, also preserves the order
 2. **Character segmentation** enables character recognition of word
-3. **Data augmentation** using image data generator class
-4. **Convolution neural network** combined with a deep neural network
-5. **Boosting technique** resulting in more reliable efficiency
+3. **Image Processing** enables the segmentation of slanted words and characters, and *svar* having a *matra*
+4. **Data augmentation** using image data generator class, rotated, shifted, sheared and zoomed
+5. **Convolution neural network** combined with a deep neural network
+6. **Boosting technique** resulting in much more reliable efficiency
 
 ## Limitations
 1. *vyanjans* having a *matra* cannot be segmented
