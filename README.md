@@ -32,7 +32,7 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 
 **Classification Report on Validation Data:** 
 
-| About | accuracy_score | precision_score | recall_score | f1_score|
+|  | accuracy_score | precision_score | recall_score | f1_score|
 | --- | --- | --- | --- | --- |
 | Model_1    |      0.9856     |      0.9858     |   0.9856  |  0.9856 |
 | Model_2    |      0.9888     |      0.9889     |   0.9888  |  0.9888 |
@@ -43,7 +43,7 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 
 **Classification Report on Test Data:**
 
-| About | accuracy_score | precision_score | recall_score | f1_score|
+|  | accuracy_score | precision_score | recall_score | f1_score|
 | --- | --- | --- | --- | --- |
 Model_1      |     0.7857     |      0.8733   |     0.7857 |   0.8153
 Model_2      |    0.8333      |     0.9415   |     0.8333  |  0.8701
