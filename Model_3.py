@@ -4,7 +4,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger, EarlyStopping
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization, Flatten, Dense
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 
 trainDataGen = ImageDataGenerator(rotation_range = 5,
                                   width_shift_range = 0.1,
@@ -34,39 +34,32 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 model = Sequential()
 
 model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu', input_shape = (32, 32, 1)))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Conv2D(32, (3, 3), strides = 1, activation = 'relu'))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Conv2D(64, (3, 3), strides = 1, activation = 'relu'))
-model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Flatten())
 
 model.add(Dense(128, activation = 'relu', kernel_initializer = 'uniform'))
-model.add(BatchNormalization())
-
-model.add(Dense(64, activation = 'relu', kernel_initializer = 'uniform'))
-model.add(BatchNormalization())
+model.add(Dropout(0.1))
 
 model.add(Dense(49, activation = 'softmax', kernel_initializer = 'uniform'))
 
-model.compile(optimizer = Adam(lr = 1e-3, decay = 1e-5), loss = 'categorical_crossentropy', metrics = ['accuracy'])
+model.compile(optimizer = Adam(learning_rate = 1e-3, decay = 1e-5), loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
 if not os.path.isdir('Model_3'):
     os.mkdir('Model_3')
 
 callbacks = [ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1,
                               patience = 7, min_lr = 1e-5),
-             EarlyStopping(patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
+             EarlyStopping(monitor = 'val_loss', patience = 9, # Patience should be larger than the one in ReduceLROnPlateau
                           min_delta = 1e-5),
              CSVLogger(os.path.join('Model_3', 'training.log'), append = True),
              ModelCheckpoint(os.path.join('Model_3', 'backup_last_model.hdf5')),
