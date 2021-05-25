@@ -28,6 +28,31 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 
 ![ezgif-7-c210707f69b3](https://user-images.githubusercontent.com/64096036/119255956-ed654100-bbdb-11eb-88cf-caa7ac835b59.gif)
 
+## Model Performance
+
+**Classification Report on Validation Data:** 
+
+| About | accuracy_score | precision_score | recall_score | f1_score|
+| --- | --- | --- | --- | --- |
+| Model_1    |      0.9856     |      0.9858     |   0.9856  |  0.9856 |
+| Model_2    |      0.9888     |      0.9889     |   0.9888  |  0.9888 |
+| Model_3    |       0.9889    |       0.9890    |    0.9889 |   0.9889 |
+| Model_4    |      0.9892     |      0.9894     |   0.9892   | 0.9892 |
+| Model_5    |       0.9836    |       0.9838    |    0.9836  |  0.9836 |
+| Boosting   |       0.9932    |       0.9933    |    0.9932  |  0.9932 |
+
+**Classification Report on Test Data:**
+
+| About | accuracy_score | precision_score | recall_score | f1_score|
+| --- | --- | --- | --- | --- |
+Model_1      |     0.7857     |      0.8733   |     0.7857 |   0.8153
+Model_2      |    0.8333      |     0.9415   |     0.8333  |  0.8701
+Model_3      |     0.7262      |     0.8333   |     0.7262  |  0.7485
+Model_4      |     0.7857     |      0.8175    |    0.7857  |  0.7895
+Model_5      |     0.8095     |      0.9200    |    0.8095  |  0.8386
+Boosting     |     0.8571      |     0.9444    |    0.8571  |  0.8862
+
+
 ## Features
 1. **Word segmentation** enables character recognition of paragraphs, it also preserves the order
 2. **Character segmentation** enables character recognition of word
