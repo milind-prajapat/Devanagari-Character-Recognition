@@ -37,7 +37,6 @@ Dict['Boosting'] = [accuracy_score(y_validation, Prediction),
                     f1_score(y_validation, Prediction, average = 'weighted', zero_division = 0)]
 
 Validation_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(4)
-print(Validation_Report)
 
 Expected_Outcomes = [[['क', 'ल', 'म'], ['प', 'त', 'ल'], ['र', 'व', 'न']],
                      [['क', 'म', 'ल'], ['फ', 'स', 'ल'], ['म', 'ह', 'ल'], ['च', 'म', 'क'], ['ल', 'प', 'क'], ['प', 'ट', 'क'], ['न', 'ह', 'र'], ['प', 'ह', 'र'], ['ल', 'ह', 'र']],
@@ -79,4 +78,9 @@ Dict['Boosting'] = [accuracy_score(y_test, Prediction),
                     f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)]
 
 Test_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(4)
+
+print('Classification Report on Validation Data:')
+print(Validation_Report)
+print('')
+print('Classification Report on Test Data:')
 print(Test_Report)

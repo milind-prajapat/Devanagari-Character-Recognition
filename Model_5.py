@@ -33,16 +33,16 @@ validationGenerator = testDataGen.flow_from_directory(os.path.join('Split Datase
 
 model = Sequential()
 
-model.add(Conv2D(32, (5, 5), padding = 'same', activation = 'relu', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
-model.add(Conv2D(64, (3, 3), activation = 'relu', strides = (1, 1), padding = 'valid'))
+model.add(Conv2D(32, (5, 5), activation = 'relu', padding = 'same', kernel_initializer = 'he_uniform', input_shape = (32, 32, 1)))
+model.add(Conv2D(64, (3, 3), activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
-model.add(Conv2D(64, (3, 3), activation = 'relu',strides = (1, 1), padding = 'valid'))
-model.add(Conv2D(64, (3, 3), activation = 'relu', padding = 'valid'))
+model.add(Conv2D(64, (3, 3), activation = 'relu'))
+model.add(Conv2D(64, (3, 3), activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
-model.add(Conv2D(64, (3, 3), activation = 'relu', padding = 'valid'))
-model.add(Conv2D(64, (3, 3), activation = 'relu', strides = (1, 1)))
+model.add(Conv2D(64, (3, 3), activation = 'relu'))
+model.add(Conv2D(64, (3, 3), activation = 'relu'))
 model.add(MaxPooling2D((2, 2), strides = (2, 2), padding = 'same'))
 
 model.add(Flatten())
