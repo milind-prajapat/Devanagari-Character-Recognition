@@ -117,6 +117,6 @@ def Split(Words):
             Character[int((size - new_h) / 2):int((size + new_h) / 2), int((size - new_w) / 2):int((size + new_w) / 2)] = Word[new_y:new_y + new_h, new_x:new_x + new_w]
             Word_Characters.append(Character.copy())
 
-        Characters.append(copy.deepcopy(Characters))
+        Characters.append(copy.deepcopy(Word_Characters))
 
     return Characters

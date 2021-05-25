@@ -25,7 +25,7 @@ Predictions = [np.argmax(Model.predict(x_validation), axis = 1) for Model in Pre
 
 Dict = {}
 for Model_Number, Prediction in enumerate(Predictions):
-    Dict[f'Model_{Model_Number}'] = [accuracy_score(y_validation, Prediction), 
+    Dict[f'Model_{Model_Number + 1}'] = [accuracy_score(y_validation, Prediction), 
                                      precision_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
                                      recall_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
                                      f1_score(y_validation, Prediction, average = 'weighted', zero_division = 0)]
@@ -36,7 +36,7 @@ Dict['Boosting'] = [accuracy_score(y_validation, Prediction),
                     recall_score(y_validation, Prediction, average = 'weighted', zero_division = 0), 
                     f1_score(y_validation, Prediction, average = 'weighted', zero_division = 0)]
 
-Validation_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(3)
+Validation_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(4)
 print(Validation_Report)
 
 Expected_Outcomes = [[['क', 'ल', 'म'], ['प', 'त', 'ल'], ['र', 'व', 'न']],
@@ -60,14 +60,14 @@ Predictions = []
 for Image_Name in Images:
     Words = Split_Words.Split(cv2.imread(os.path.join(Path, Image_Name)))
     Characters = Split_Characters.Split(Words)
-    Predictions.append(Predict_Characters.Predict(Characters))
+    Predictions.append(Predict_Characters.Predict(Characters, Evaluate = True))
     
 y_test = [Predict_Characters.Reversed_Label_Dict[Character] for Image in Expected_Outcomes for Word in Image for Character in Word]
 Predictions = np.array([Character for Image in Predictions for Word in Image for Character in Word]).T.tolist()
 
 Dict = {}
 for Model_Number, Prediction in enumerate(Predictions):
-    Dict[f'Model_{Model_Number}'] = [accuracy_score(y_test, Prediction), 
+    Dict[f'Model_{Model_Number + 1}'] = [accuracy_score(y_test, Prediction), 
                                      precision_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
                                      recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
                                      f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)]
@@ -78,5 +78,5 @@ Dict['Boosting'] = [accuracy_score(y_test, Prediction),
                     recall_score(y_test, Prediction, average = 'weighted', zero_division = 0), 
                     f1_score(y_test, Prediction, average = 'weighted', zero_division = 0)]
 
-Test_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(3)
+Test_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accuracy_score', 'precision_score', 'recall_score', 'f1_score']).round(4)
 print(Test_Report)
