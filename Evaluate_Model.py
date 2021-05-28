@@ -82,5 +82,5 @@ Test_Report = pd.DataFrame.from_dict(Dict, orient = 'index', columns = ['accurac
 print('Classification Report on Validation Data:')
 print(Validation_Report)
 print('')
-print('Classification Report on Test Data:')
+print('Classification Report on Sample Words:')
 print(Test_Report)
