@@ -54,9 +54,9 @@ Model_5      |     0.8095     |      0.9200    |    0.8095  |  0.8386
 Boosting     |     0.8571      |     0.9444    |    0.8571  |  0.8862
 
 ## Features
-1. **Word segmentation** enable character recognition of paragraphs, preserving the order of the words
-2. **Character segmentation** enable character recognition of a word
-3. **Image processing** enable the segmentation of slanted words and characters, and *svar* having a *matra*
+1. **Word segmentation** enables the character recognition of paragraphs, preserving the order of the words
+2. **Character segmentation** enables the character recognition of a word
+3. **Image processing** enables the segmentation of slanted words and characters, and *svar* having a *matra*
 4. **Data augmentation** using image data generator class, rotated, shifted, sheared and zoomed
 5. **Convolution neural network** combined with a deep neural network
 6. **Boosting technique** resulting in much more reliable efficiency
