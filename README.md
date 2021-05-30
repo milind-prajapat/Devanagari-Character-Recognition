@@ -64,7 +64,7 @@ Boosting     |     0.8571      |     0.9444    |    0.8571  |  0.8862
 ## Limitations
 1. *vyanjans* having a *matra* cannot be segmented
 2. Numerals and *matra* are not included in the dataset and hence are not supported
-3. Words with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) or highly slanted words might hinder efficiency
+3. Words with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) and highly slanted words might hinder efficiency
 
 ## References
 * [Handwritten Devanagari Characters](https://drive.google.com/file/d/1kVn8-Cf1RnnePqfxpCnLSt1rxm2eSfh4/view?usp=sharing)
