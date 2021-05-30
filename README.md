@@ -42,7 +42,7 @@ You can then either run the code directly on visual studio using [Devanagari-Cha
 | Model_5    |       0.9836    |       0.9838    |    0.9836  |  0.9836 |
 | Boosting   |       0.9932    |       0.9933    |    0.9932  |  0.9932 |
 
-**Table 02.** Classification Report on [Sample Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words)
+**Table 02.** Classification Report on [Sample Images](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words)
 
 |  | accuracy_score | precision_score | recall_score | f1_score|
 | --- | :---: | :---: | :---: | ---: |
