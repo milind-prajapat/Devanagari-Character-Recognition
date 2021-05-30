@@ -10,7 +10,7 @@ Sample images used for character recognition can be found in the [Words](https:/
 ## Instructions To Use
 To perform character recognition, accumulate the images in a directory and then provide the complete path to the directory in [Main.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Main.py).
 
-You can then either run the code directly on visual studio using [Devanagari-Character-Recognition.sln](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Devanagari-Character-Recognition.sln) or can run [Main.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Main.py).
+You can then either run the code directly on the visual studio using [Devanagari-Character-Recognition.sln](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Devanagari-Character-Recognition.sln) or can run [Main.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Main.py).
 
 ## Structure
 * [Split_Words.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Split_Words.py) is used for performing word segmentation, helpful in achieving character recognition of paragraphs
