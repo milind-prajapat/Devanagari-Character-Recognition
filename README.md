@@ -5,7 +5,7 @@ This work allows optical character recognition of the Devanagari script, handwri
 
 We have also used boosting technique over the neural network for achieving more significant outcomes. We trained five neural networks with different number and type of layers, filters and pool size in the convolutional layer, dropout rate and the number of neurons in the dense layer. Then, while performing recognition, each neural network is first used for prediction separately, and then voting among them is performed. The one which occurred more frequently is chosen as the final prediction, resulting in better precision.
 
-Sample images used for character recognition can be found in [Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words) directory of the repository.
+Sample images used for character recognition can be found in the [Words](https://github.com/milind-prajapat/Devanagari-Character-Recognition/tree/main/Words) directory of the repository.
 
 ## Instructions To Use
 To perform character recognition, accumulate the images in a directory and then provide the complete path to the directory in [Main.py](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Main.py).
