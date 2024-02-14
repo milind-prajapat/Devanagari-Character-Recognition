@@ -12,6 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>Devanagari-Character-Recognition</Name>
     <RootNamespace>Mosaic</RootNamespace>
+    <InterpreterId>MSBuild|Character-Recognition|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Predict_Characters.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="Character-Recognition\">
+      <Id>Character-Recognition</Id>
+      <Version>3.9</Version>
+      <Description>Character-Recognition (Python 3.9 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="requirements.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
