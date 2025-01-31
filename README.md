@@ -67,4 +67,4 @@ Boosting     |     0.8571      |     0.9444    |    0.8571  |  0.8862
 3. Words with excess noise like [this](https://github.com/milind-prajapat/Devanagari-Character-Recognition/blob/main/Words/8.jpg) and highly slanted words might hinder efficiency
 
 ## References
-* [Handwritten Devanagari Characters](https://drive.google.com/file/d/1kVn8-Cf1RnnePqfxpCnLSt1rxm2eSfh4/view?usp=sharing)
+* [Handwritten Devanagari Characters](https://drive.google.com/file/d/1d3rac1XC2t1BE0Op5sw2GNoZsiE4aZ_K/view?usp=drive_link)
